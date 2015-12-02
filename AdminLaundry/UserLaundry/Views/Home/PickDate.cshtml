@@ -1,0 +1,32 @@
+﻿@model UserLaundry.LaundryUser
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PickDate</title>
+</head>
+<body>
+<div>
+    @Model.Reservations.Count
+    @using (Html.BeginForm(new {name = Model.name}))
+    {
+        <table>
+            <tr>
+                <td>@Html.Label("Date:")</td>
+                <td>
+                    @Html.TextBox("date")
+                </td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Date picked" />    <div>@Html.ValidationMessage("DateError")</div>
+    }
+</div>
+</body>
+</html>

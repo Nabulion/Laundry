@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a46d2c9a9d7b496abb25465474861c41" Name="Diagram1">
+        <EntityTypeShape EntityType="LaundryDBModel1.LaundryRoom" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="LaundryDBModel1.LaundryUser" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LaundryDBModel1.Machine" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LaundryDBModel1.MachineProgram" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LaundryDBModel1.Reservation" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LaundryDBModel1.StartedWashCost" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LaundryDBModel1.WashTime" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LaundryDBModel1.WrapperMachineRe" Width="1.5" PointX="7.5" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="LaundryDBModel1.FK__LaundryUs__Laund__1367E606" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__Machine__Laundry__0519C6AF" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__WashTime__Laundr__0EA330E9" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__Reservati__Laund__182C9B23" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__MachinePr__Machi__09DE7BCC" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__WrapperMa__Machi__239E4DCF" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__StartedWa__Machi__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__Reservati__WashT__1920BF5C" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__StartedWa__Reser__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__WrapperMa__Reser__24927208" ManuallyRouted="false" />
+        <AssociationConnector Association="LaundryDBModel1.FK__Reservati__Machi__1B0907CE" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

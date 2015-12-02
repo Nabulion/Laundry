@@ -1,0 +1,25 @@
+﻿@model UserLaundry.Models.Wrapper
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Reservation</title>
+</head>
+<body>
+<div>
+    @foreach (var machine in @Model.Machines)
+    {
+        @Html.ActionLink(@machine.machineType, "Reservation",
+            new {washid = Model.WashTime.id, userid = Model.LaundryUser.name, resid = Model.LaundryUser.Reservations.LastOrDefault().id, machineid = machine.id})
+    }
+
+    @Html.ActionLink("Go to reservations", "AllReservations", new{userid = Model.LaundryUser.name})
+</div>
+</body>
+</html>

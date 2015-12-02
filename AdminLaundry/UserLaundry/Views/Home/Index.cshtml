@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login to loundry</title>
+</head>
+<body>
+   @using (Html.BeginForm())
+   {
+    <table>
+        <tr>
+            <td>@Html.Label("Name:")</td>
+            <td>
+                @Html.TextBox("name")
+            </td>
+        </tr>
+    </table>
+
+    <input type="submit" value="Log in" />    <div id="Error">@Html.ValidationMessage("LoginError")</div>
+   }
+</body>
+</html>

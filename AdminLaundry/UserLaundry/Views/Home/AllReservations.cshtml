@@ -1,0 +1,23 @@
+﻿@model UserLaundry.LaundryUser
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AllReservations</title>
+</head>
+<body>
+<div>
+    @Model.Reservations.Count
+    @foreach (var res in Model.Reservations)
+    {
+        @Html.ActionLink(@res.ToString(), "StartWash", new {id = res.id}); <br/>
+    }
+</div>
+</body>
+</html>

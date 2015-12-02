@@ -1,0 +1,38 @@
+﻿@model UserLaundry.LaundryUser
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserPage</title>
+</head>
+<body>
+    <div>        
+        User name: @Model.name <br/>
+        Laundry room: @Model.LaundryRoom1.name <br/>
+        <table>
+            <thead>Washing times:</thead> 
+            @foreach (var wt in @Model.LaundryRoom1.WashTimes)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(@wt.ToString(), "Reservation", new { washid = wt.id, userid = Model.name, resid = Model.Reservations.LastOrDefault().id })
+                    </td>
+                </tr>
+
+            }
+
+        </table>
+
+
+
+
+
+    </div>
+    </body>
+</html>
