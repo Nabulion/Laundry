@@ -28,7 +28,7 @@ namespace UserLaundry.Service
         public static Reservation CreateReservation(LaundryUser laundryUser, DateTime date)
         {
             Reservation tempReservation = new Reservation();
-            tempReservation.LaundryUser = laundryUser.name;
+            tempReservation.LaundryUser1 = laundryUser;
             tempReservation.reservationDate = date;
             Db.Reservations.Add(tempReservation);
             Db.SaveChanges();
@@ -68,14 +68,20 @@ namespace UserLaundry.Service
             return dateTime;
         }
 
-        internal static Reservation FindReservation(int id)
+        public static Reservation FindReservation(int id)
         {
             return Dao.Dao.FindReservation(id);
         }
 
-        internal static Machine FindMachine(int? machineid)
+        public static Machine FindMachine(int? machineid)
         {
             return Dao.Dao.FindMachine(machineid);
+        }
+
+        public static void StartWash(Reservation r)
+        {
+            r.reservationUsed = true;
+            Db.SaveChanges();
         }
     }
 }

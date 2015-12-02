@@ -13,8 +13,8 @@
 </head>
 <body>
 <div>
-    @Model.Reservations.Count
-    @foreach (var res in Model.Reservations)
+   
+    @foreach (var res in Model.GetNonUsedReservations())
     {
         @Html.ActionLink(@res.ToString(), "StartWash", new {id = res.id}); <br/>
     }

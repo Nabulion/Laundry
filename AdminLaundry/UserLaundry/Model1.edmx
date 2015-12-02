@@ -145,7 +145,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StartedWa__Machi__20C1E124">
+        <Association Name="FK__StartedWa__Machi__21B6055D">
           <End Role="MachineProgram" Type="Self.MachineProgram" Multiplicity="0..1" />
           <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
           <ReferentialConstraint>
@@ -157,7 +157,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StartedWa__Reser__1FCDBCEB">
+        <Association Name="FK__StartedWa__Reser__20C1E124">
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
           <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
           <ReferentialConstraint>
@@ -181,7 +181,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WrapperMa__Machi__25869641">
+        <Association Name="FK__WrapperMa__Machi__267ABA7A">
           <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
           <End Role="WrapperMachineRes" Type="Self.WrapperMachineRes" Multiplicity="*" />
           <ReferentialConstraint>
@@ -193,7 +193,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WrapperMa__Reser__267ABA7A">
+        <Association Name="FK__WrapperMa__Reser__276EDEB3">
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
           <End Role="WrapperMachineRes" Type="Self.WrapperMachineRes" Multiplicity="*" />
           <ReferentialConstraint>
@@ -238,11 +238,11 @@
             <End Role="WashTime" EntitySet="WashTime" />
             <End Role="Reservation" EntitySet="Reservation" />
           </AssociationSet>
-          <AssociationSet Name="FK__StartedWa__Machi__20C1E124" Association="Self.FK__StartedWa__Machi__20C1E124">
+          <AssociationSet Name="FK__StartedWa__Machi__21B6055D" Association="Self.FK__StartedWa__Machi__21B6055D">
             <End Role="MachineProgram" EntitySet="MachineProgram" />
             <End Role="StartedWashCost" EntitySet="StartedWashCost" />
           </AssociationSet>
-          <AssociationSet Name="FK__StartedWa__Reser__1FCDBCEB" Association="Self.FK__StartedWa__Reser__1FCDBCEB">
+          <AssociationSet Name="FK__StartedWa__Reser__20C1E124" Association="Self.FK__StartedWa__Reser__20C1E124">
             <End Role="Reservation" EntitySet="Reservation" />
             <End Role="StartedWashCost" EntitySet="StartedWashCost" />
           </AssociationSet>
@@ -250,11 +250,11 @@
             <End Role="LaundryRoom" EntitySet="LaundryRoom" />
             <End Role="WashTime" EntitySet="WashTime" />
           </AssociationSet>
-          <AssociationSet Name="FK__WrapperMa__Machi__25869641" Association="Self.FK__WrapperMa__Machi__25869641">
+          <AssociationSet Name="FK__WrapperMa__Machi__267ABA7A" Association="Self.FK__WrapperMa__Machi__267ABA7A">
             <End Role="Machine" EntitySet="Machine" />
             <End Role="WrapperMachineRes" EntitySet="WrapperMachineRes" />
           </AssociationSet>
-          <AssociationSet Name="FK__WrapperMa__Reser__267ABA7A" Association="Self.FK__WrapperMa__Reser__267ABA7A">
+          <AssociationSet Name="FK__WrapperMa__Reser__276EDEB3" Association="Self.FK__WrapperMa__Reser__276EDEB3">
             <End Role="Reservation" EntitySet="Reservation" />
             <End Role="WrapperMachineRes" EntitySet="WrapperMachineRes" />
           </AssociationSet>

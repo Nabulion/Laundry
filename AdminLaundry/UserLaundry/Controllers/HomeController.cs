@@ -36,10 +36,10 @@ namespace UserLaundry.Controllers
             {
                 DateTime date = Service.Service.ValidateDate(fc["date"]);
                 LaundryUser laundryUser = Service.Service.FindLaundryUser(name);
-                
+
                 Service.Service.CreateReservation(laundryUser, date);
-                
-                return RedirectToAction("UserPage", new {name = name});
+
+                return RedirectToAction("UserPage", new { name = name });
             }
             catch (Exception e)
             {
@@ -53,7 +53,7 @@ namespace UserLaundry.Controllers
             try
             {
                 LaundryUser laundryUser = Service.Service.FindLaundryUser(name);
-                if(laundryUser == null) throw new Exception();
+                if (laundryUser == null) throw new Exception();
                 return View(laundryUser);
             }
             catch (Exception)
@@ -61,28 +61,30 @@ namespace UserLaundry.Controllers
 
                 return RedirectToAction("Index");
             }
-           
+
         }
 
 
-        public ActionResult Reservation(int washid, String userid, int resid, int? machineid)
+        public ActionResult Reservation(String userid)
         {
             Wrapper w = new Wrapper();
             w.LaundryUser = Service.Service.FindLaundryUser(userid);
             Reservation r = w.LaundryUser.Reservations.LastOrDefault();
-            
-            WashTime washTime = Service.Service.FindWashTime(washid);
+
+            WashTime washTime = r.WashTime1;
             w.WashTime = washTime;
             Service.Service.AddWashTimeReservation(r, washTime);
-            
+                
             w.Machines = Service.Service.FindMachinesAvailable(w.LaundryUser.LaundryRoom1, r);
-            if (machineid != null)
-            {
-               Machine m = Service.Service.FindMachine(machineid);
-               Service.Service.AddMachineReservation(r, m);
-            }
-            
             return View(w);
+        }
+
+        public ActionResult Reserved(int resid, int machineid)
+        {
+            Reservation r = Service.Service.FindReservation(resid);
+            Machine m = Service.Service.FindMachine(machineid);
+            Service.Service.AddMachineReservation(r, m);
+            return RedirectToAction("Reservation", new{userid = r.LaundryUser1.name});
         }
 
         public ActionResult AllReservations(String userid)
@@ -93,7 +95,15 @@ namespace UserLaundry.Controllers
 
         public ActionResult StartWash(int id)
         {
-            return View();
+            Reservation r = Service.Service.FindReservation(id);
+            return View(r);
+        }
+
+        public ActionResult Start(int id)
+        {
+            Reservation r = Service.Service.FindReservation(id);
+            Service.Service.StartWash(r);
+            return RedirectToAction("StartWash", new {id = r.id});
         }
     }
 }

@@ -55,12 +55,12 @@ namespace UserLaundry.Dao
            return _db.WashTimes.Find(id);
        }
 
-       internal static Reservation FindReservation(int id)
+       public static Reservation FindReservation(int id)
        {
            return _db.Reservations.Find(id);
        }
 
-       internal static Machine FindMachine(int? machineid)
+       public static Machine FindMachine(int? machineid)
        {
            return _db.Machines.Find(machineid);
        }

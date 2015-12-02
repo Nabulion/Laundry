@@ -1,0 +1,22 @@
+﻿@model UserLaundry.Reservation
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StartWash</title>
+</head>
+<body>
+<div>
+    @foreach (var m in Model.WrapperMachineRes)
+    {
+        @m.Machine1.machineType @Html.ActionLink("Start", "Start", new{id = Model.id})
+    }
+</div>
+</body>
+</html>

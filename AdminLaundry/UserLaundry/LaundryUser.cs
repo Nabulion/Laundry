@@ -24,5 +24,18 @@ namespace UserLaundry
     
         public virtual LaundryRoom LaundryRoom1 { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
+
+        public List<Reservation> GetNonUsedReservations()
+        {
+            List<Reservation> list = new List<Reservation>();
+            foreach (var r in Reservations)
+            {
+                if (r.reservationUsed.GetValueOrDefault() == false)
+                {
+                    list.Add(r);
+                }
+            }
+            return list;
+        }
     }
 }

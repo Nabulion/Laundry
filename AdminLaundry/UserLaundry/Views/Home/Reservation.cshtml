@@ -15,8 +15,8 @@
 <div>
     @foreach (var machine in @Model.Machines)
     {
-        @Html.ActionLink(@machine.machineType, "Reservation",
-            new {washid = Model.WashTime.id, userid = Model.LaundryUser.name, resid = Model.LaundryUser.Reservations.LastOrDefault().id, machineid = machine.id})
+        @Html.ActionLink(@machine.machineType, "Reserved",
+            new {resid = Model.LaundryUser.Reservations.LastOrDefault().id, machineid = machine.id}) <br/>
     }
 
     @Html.ActionLink("Go to reservations", "AllReservations", new{userid = Model.LaundryUser.name})
