@@ -12,13 +12,38 @@
     <title>LaundryUserOverview</title>
 </head>
 <body>
-<div>
-    User: @Model.name <br/>
+    <div>
+        User: @Model.name <br />
 
-    @if (Model.Reservations.Count == 0)
-    {
-        <div>There is no current reservations</div>
-    }
-</div>
+        Paid washes amount: @Model.PaidWashes() <br/>
+
+        Unpaid washes amount: @Model.UnPaidWashes() <br/>
+
+        Future reservations: <br />
+        @if (Model.Reservations.Count == 0)
+        {
+            <div>There is no current reservations</div> <br/>
+        }
+        else
+        {
+            foreach (var res in Model.GetNonUsedReservations())
+            {
+                @res <br />
+            }
+        }
+
+        Machines currently in use <br />
+        @if (Model.LaundryRoom1.GetMachinesInUse().Count == 0)
+        {
+            <div>No machines is currently being used</div> <br/>
+        }
+        else
+        {
+            foreach (var machine in Model.LaundryRoom1.GetMachinesInUse())
+            {
+                @machine <br />
+            }
+        }
+    </div>
 </body>
 </html>

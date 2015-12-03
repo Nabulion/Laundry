@@ -13,13 +13,18 @@
 </head>
 <body>
 <div>
-   @if (Model.GetNonUsedReservations().Count == 0)
-   {
-       <div>You do not have any unfinnished reservations currently</div>
-   }
-    @foreach (var res in Model.GetNonUsedReservations())
+    @if (Model.GetNonUsedReservations().Count == 0)
     {
-        @Html.ActionLink(@res.ToString(), "StartWash", new {id = res.id}); <br/>
+        <div>You do not have any unfinnished reservations currently</div>
+    }
+    else
+    {
+        foreach (var res in Model.GetNonUsedReservations())
+        {
+            @Html.ActionLink(@res.ToString(), "StartWash", new {id = res.id})
+
+            <br/>
+        }
     }
 
     @Html.ActionLink("Back", "PickDate", new { userid = Model.name })

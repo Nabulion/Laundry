@@ -28,7 +28,7 @@ namespace UserLaundry.Controllers
             catch (Exception)
             {
 
-                ModelState.AddModelError("LoginError", "no user found with that name, try default user Eunji");
+                ModelState.AddModelError("LoginError", "no user found with that name");
                 return View("");
             }
             

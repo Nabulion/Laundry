@@ -37,5 +37,43 @@ namespace UserLaundry
             }
             return list;
         }
+
+        public decimal PaidWashes()
+        {
+            decimal total = 0;
+            foreach (var res in Reservations)
+            {
+                if (res.StartedWashCosts.Count != 0)
+                {
+                    foreach (var cost in res.StartedWashCosts)
+                    {
+                        if (cost.payed.GetValueOrDefault() == true)
+                        {
+                            total += cost.MachineProgram1.price.GetValueOrDefault();
+                        }
+                    }
+                }
+            }
+            return total;
+        }
+
+        public decimal UnPaidWashes()
+        {
+            decimal total = 0;
+            foreach (var res in Reservations)
+            {
+                if (res.StartedWashCosts.Count != 0)
+                {
+                    foreach (var cost in res.StartedWashCosts)
+                    {
+                        if (cost.payed.GetValueOrDefault() == false)
+                        {
+                            total += cost.MachineProgram1.price.GetValueOrDefault();
+                        }
+                    }
+                }
+            }
+            return total;
+        }
     }
 }

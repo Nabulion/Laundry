@@ -26,5 +26,18 @@ namespace UserLaundry
         public virtual ICollection<LaundryUser> LaundryUsers { get; set; }
         public virtual ICollection<Machine> Machines { get; set; }
         public virtual ICollection<WashTime> WashTimes { get; set; }
+
+        public List<Machine> GetMachinesInUse()
+        {
+            List<Machine> list = new List<Machine>();
+            foreach (var machine in Machines)
+            {
+                if (machine.start.GetValueOrDefault() == true)
+                {
+                    list.Add(machine);
+                }
+            }
+            return list;
+        }
     }
 }
