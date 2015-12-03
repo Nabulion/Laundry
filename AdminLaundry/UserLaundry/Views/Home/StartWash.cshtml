@@ -21,6 +21,7 @@
                 @Html.ActionLink(program.ToString(), "Start", new { id = Model.id, programid = program.id }) <br />
         }
     }
+    @Html.ActionLink("Back", "PickDate", new { userid = Model.LaundryUser1.name })
 </div>
 </body>
 </html>

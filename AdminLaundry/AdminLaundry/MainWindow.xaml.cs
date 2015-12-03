@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,12 +37,12 @@ namespace AdminLaundry
                 LaundryUser laundryUser = Service.Service.CreateLaundryUser(laundryRoom, TextUserName.Text);
                 TextMessage.Text = "User: " + laundryUser.name + " has been created and assigned " +
                                laundryUser.LaundryRoom1 + " as Laundryroom";
-                lbUsers.ItemsSource = null;
+         
                 lbUsers.ItemsSource = Service.Service.GetUsers();
             }
             catch (Exception e1)
             {
-                TextMessage.Text = "something went wrong " + e1.Message;
+                TextMessage.Text = e1.Message;
             }
          
             
@@ -58,7 +59,7 @@ namespace AdminLaundry
             catch (Exception e1)
             {
 
-                TextMessage.Text = "something went wrong " + e1.Message;
+                TextMessage.Text = e1.Message;
             }
             
 
@@ -76,7 +77,7 @@ namespace AdminLaundry
             catch (Exception e1)
             {
 
-                TextMessage.Text = "something went wrong " + e1.Message;
+                TextMessage.Text = e1.Message;
             }
         }
     }
