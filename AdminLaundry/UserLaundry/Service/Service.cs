@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Web;
 
 namespace UserLaundry.Service
@@ -79,9 +80,10 @@ namespace UserLaundry.Service
             return Dao.Dao.FindMachine(machineid);
         }
 
-        public static void StartWash(Reservation r)
+        public static void StartWash(Reservation r, Machine m)
         {
             r.reservationUsed = true;
+            m.start = true;
             Db.SaveChanges();
         }
 
@@ -90,6 +92,8 @@ namespace UserLaundry.Service
             StartedWashCost cost = new StartedWashCost();
             cost.Reservation1 = reservation;
             cost.MachineProgram1 = machineProgram;
+            Db.StartedWashCosts.Add(cost);
+            Db.SaveChanges();
             return cost;
         }
 
@@ -100,6 +104,11 @@ namespace UserLaundry.Service
                 Db.Reservations.Remove(r);
                 Db.SaveChanges();
             }
+        }
+
+        public static MachineProgram FindProgram(int programid)
+        {
+            return Dao.Dao.FindProgram(programid);
         }
     }
 }

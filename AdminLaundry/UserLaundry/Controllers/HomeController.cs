@@ -112,13 +112,19 @@ namespace UserLaundry.Controllers
             return View(r);
         }
 
-        public ActionResult Start(int id)
+        public ActionResult Start(int id, int programid)
         {
             Reservation r = Service.Service.FindReservation(id);
-            Service.Service.StartWash(r);
-            //TODO needs a machine program
-            Service.Service.CreateStartedWashCost(r, null);
-            return RedirectToAction("AllReservations", new { userid = r.LaundryUser1.name });
+            MachineProgram program = Service.Service.FindProgram(programid);
+            Service.Service.StartWash(r, program.Machine1);
+            Service.Service.CreateStartedWashCost(r, program);
+            return RedirectToAction("StartWash", new { id = r.id });
+        }
+
+        public ActionResult LaundryUserOverview(String userid)
+        {
+            LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
+            return View(laundryUser);
         }
     }
 }

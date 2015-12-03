@@ -1,0 +1,24 @@
+﻿@model UserLaundry.LaundryUser
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LaundryUserOverview</title>
+</head>
+<body>
+<div>
+    User: @Model.name <br/>
+
+    @if (Model.Reservations.Count == 0)
+    {
+        <div>There is no current reservations</div>
+    }
+</div>
+</body>
+</html>

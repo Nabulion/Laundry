@@ -183,6 +183,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Views\Home\AllReservations.cshtml" />
     <Content Include="Views\Home\StartWash.cshtml" />
+    <Content Include="Views\Home\LaundryUserOverview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

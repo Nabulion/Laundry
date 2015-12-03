@@ -62,5 +62,10 @@ namespace UserLaundry.Dao
        {
            return _db.Machines.Find(machineid);
        }
+
+       public static MachineProgram FindProgram(int programid)
+       {
+           return _db.MachinePrograms.Find(programid);
+       }
    }
 }

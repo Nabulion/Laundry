@@ -28,6 +28,9 @@
 
         <input type="submit" value="Date picked" />    <div id ="Error">@Html.ValidationMessage("DateError")</div>
     }
+
+    @Html.ActionLink("Reservations", "AllReservations", new{userid = Model.name})
+    @Html.ActionLink("Overview of spendings", "LaundryUserOverview", new{userid = Model.name})
 </div>
 </body>
 </html>

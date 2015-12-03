@@ -23,7 +23,9 @@ namespace AdminLaundry.Service
            }
            catch (DbUpdateException e)
            {
-
+               Db.LaundryUsers.Remove(tempLaundryUser);
+               Db.SaveChanges();
+               throw new Exception("The name is already in use");
            }
         
            return tempLaundryUser;
@@ -32,6 +34,28 @@ namespace AdminLaundry.Service
        public static List<LaundryRoom> GetLaundryRooms()
        {
            return Dao.Dao.GetLaundryRooms();
+       }
+
+       public static decimal UserTotalCost(LaundryUser user)
+       {
+           return (from res in user.Reservations 
+                   where res.StartedWashCosts.Count != 0 from start in res.StartedWashCosts 
+                   where start.payed.GetValueOrDefault() == false 
+                   select start.MachineProgram1.price.GetValueOrDefault()).Sum();
+       }
+
+       public static void UserTotalCostPayed(LaundryUser user)
+       {
+           foreach (var start in user.Reservations.Where(res => res.StartedWashCosts.Count != 0).SelectMany(res => res.StartedWashCosts))
+           {
+               start.payed = true;
+           }
+           Db.SaveChanges();
+       }
+
+       public static List<LaundryUser> GetUsers()
+       {
+           return Dao.Dao.GetUsers();
        }
    }
 }

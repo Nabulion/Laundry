@@ -24,24 +24,60 @@ namespace AdminLaundry
         {
             InitializeComponent();
             LbLaundryRooms.ItemsSource = Service.Service.GetLaundryRooms();
+            lbUsers.ItemsSource = Service.Service.GetUsers();
         }
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            LaundryRoom laundryRoom = (LaundryRoom) LbLaundryRooms.SelectedItem;
+            
             try
             {
+                LaundryRoom laundryRoom = (LaundryRoom)LbLaundryRooms.SelectedItem;
                 LaundryUser laundryUser = Service.Service.CreateLaundryUser(laundryRoom, TextUserName.Text);
                 TextMessage.Text = "User: " + laundryUser.name + " has been created and assigned " +
                                laundryUser.LaundryRoom1 + " as Laundryroom";
+                lbUsers.ItemsSource = null;
+                lbUsers.ItemsSource = Service.Service.GetUsers();
+            }
+            catch (Exception e1)
+            {
+                TextMessage.Text = "something went wrong " + e1.Message;
+            }
+         
+            
+        }
+
+        private void BtnCalculate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                LaundryUser user = (LaundryUser)lbUsers.SelectedItem;
+                TextWashCost.Text = Service.Service.UserTotalCost(user)+ "";
+                TextMessage.Text = "Calculated the washcost for " + user.name;
             }
             catch (Exception e1)
             {
 
                 TextMessage.Text = "something went wrong " + e1.Message;
             }
-         
             
+
+        }
+
+        private void BtnRent_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                LaundryUser user = (LaundryUser)lbUsers.SelectedItem;
+                Service.Service.UserTotalCostPayed(user);
+                TextWashCost.Text = Service.Service.UserTotalCost(user) + "";
+                TextMessage.Text = "Added the washcost for " + user.name + " to rent";
+            }
+            catch (Exception e1)
+            {
+
+                TextMessage.Text = "something went wrong " + e1.Message;
+            }
         }
     }
 }

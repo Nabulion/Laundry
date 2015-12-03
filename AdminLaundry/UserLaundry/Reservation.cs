@@ -37,5 +37,19 @@ namespace UserLaundry
         {
             return reservationDate + "";
         }
+
+        public List<Machine> GetNonStartedMachines()
+        {
+            List<Machine> list = new List<Machine>();
+
+            foreach (var machine in WrapperMachineRes)
+            {
+                if (machine.Machine1.start.GetValueOrDefault() == false)
+                {
+                    list.Add(machine.Machine1);
+                }
+            }
+            return list;
+        }
     }
 }

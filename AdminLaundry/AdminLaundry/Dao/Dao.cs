@@ -23,5 +23,10 @@ namespace AdminLaundry.Dao
        {
            return GetDbEntities().LaundryRooms.ToList();
        }
+
+       public static List<LaundryUser> GetUsers()
+       {
+           return _db.LaundryUsers.ToList();
+       }
    }
 }

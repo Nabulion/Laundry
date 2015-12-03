@@ -13,9 +13,13 @@
 </head>
 <body>
 <div>
-    @foreach (var m in Model.WrapperMachineRes)
+    @foreach (var m in Model.GetNonStartedMachines())
     {
-        @m.Machine1.machineType @Html.ActionLink("Start", "StartWash", new{id = m.Reservation}) <br/>
+        @m.machineType
+        foreach (var program in m.MachinePrograms)
+        {
+                @Html.ActionLink(program.ToString(), "Start", new { id = Model.id, programid = program.id }) <br />
+        }
     }
 </div>
 </body>
