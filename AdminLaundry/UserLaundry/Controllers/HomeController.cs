@@ -19,40 +19,51 @@ namespace UserLaundry.Controllers
         public ActionResult Index(FormCollection fc)
         {
             String name = fc["name"];
-            LaundryUser laundryUser = Service.Service.FindLaundryUser(name);
-            return RedirectToAction("PickDate", new { name = laundryUser.name });
+            try
+            {
+                LaundryUser laundryUser = Service.Service.FindLaundryUser(name);
+                return RedirectToAction("PickDate", new { userid = laundryUser.name });
+
+            }
+            catch (Exception)
+            {
+
+                ModelState.AddModelError("LoginError", "no user with that name");
+                return View("");
+            }
+            
         }
 
-        public ActionResult PickDate(String name)
+        public ActionResult PickDate(String userid)
         {
-            LaundryUser laundryUser = Service.Service.FindLaundryUser(name);
+            LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
             return View(laundryUser);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult PickDate(String name, FormCollection fc)
+        public ActionResult PickDate(String userid, FormCollection fc)
         {
+            LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
             try
             {
                 DateTime date = Service.Service.ValidateDate(fc["date"]);
-                LaundryUser laundryUser = Service.Service.FindLaundryUser(name);
 
                 Service.Service.CreateReservation(laundryUser, date);
 
-                return RedirectToAction("UserPage", new { name = name });
+                return RedirectToAction("UserPage", new { userid = userid });
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("DateError", "The Date is not a real date try 10/10/2015");
-                return RedirectToAction("PickDate", new { name = name });
+                ModelState.AddModelError("DateError", e.Message);
+                return View(laundryUser);
             }
         }
 
-        public ActionResult UserPage(String name)
+        public ActionResult UserPage(String userid)
         {
             try
             {
-                LaundryUser laundryUser = Service.Service.FindLaundryUser(name);
+                LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
                 if (laundryUser == null) throw new Exception();
                 return View(laundryUser);
             }
@@ -65,15 +76,15 @@ namespace UserLaundry.Controllers
         }
 
 
-        public ActionResult Reservation(String userid)
+        public ActionResult Reservation(String userid, int washid)
         {
             Wrapper w = new Wrapper();
             w.LaundryUser = Service.Service.FindLaundryUser(userid);
             Reservation r = w.LaundryUser.Reservations.LastOrDefault();
-
-            WashTime washTime = r.WashTime1;
+            WashTime washTime = Service.Service.FindWashTime(washid);
             w.WashTime = washTime;
             Service.Service.AddWashTimeReservation(r, washTime);
+            
                 
             w.Machines = Service.Service.FindMachinesAvailable(w.LaundryUser.LaundryRoom1, r);
             return View(w);
@@ -84,7 +95,7 @@ namespace UserLaundry.Controllers
             Reservation r = Service.Service.FindReservation(resid);
             Machine m = Service.Service.FindMachine(machineid);
             Service.Service.AddMachineReservation(r, m);
-            return RedirectToAction("Reservation", new{userid = r.LaundryUser1.name});
+            return RedirectToAction("Reservation", new{userid = r.LaundryUser1.name, washid = r.WashTime});
         }
 
         public ActionResult AllReservations(String userid)
@@ -103,7 +114,8 @@ namespace UserLaundry.Controllers
         {
             Reservation r = Service.Service.FindReservation(id);
             Service.Service.StartWash(r);
-            return RedirectToAction("StartWash", new {id = r.id});
+            Service.Service.CreateStartedWashCost(r, null);
+            return RedirectToAction("AllReservations", new { userid = r.LaundryUser1.name });
         }
     }
 }

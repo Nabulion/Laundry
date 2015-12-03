@@ -2,6 +2,8 @@
 
 @{
     Layout = null;
+    <link rel="stylesheet" type="text/css" href="~/Scripts/css/StyleSheet1.css">
+
 }
 
 <!DOCTYPE html>
@@ -13,8 +15,7 @@
 </head>
 <body>
 <div>
-    @Model.Reservations.Count
-    @using (Html.BeginForm(new {name = Model.name}))
+    @using (Html.BeginForm(new { userid = Model.name }))
     {
         <table>
             <tr>
@@ -25,7 +26,7 @@
             </tr>
         </table>
 
-        <input type="submit" value="Date picked" />    <div>@Html.ValidationMessage("DateError")</div>
+        <input type="submit" value="Date picked" />    <div id ="Error">@Html.ValidationMessage("DateError")</div>
     }
 </div>
 </body>

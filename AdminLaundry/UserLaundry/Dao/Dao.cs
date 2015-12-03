@@ -31,18 +31,16 @@ namespace UserLaundry.Dao
            List<Machine> list = laundryRoom.Machines.ToList();
            foreach (var m in list)
            {
-               if (m.WrapperMachineRes.Count == 0)
+               if (m.Reservations.Count == 0)
                {
                    machines.Add(m);
                }
                else
                {
-                   foreach (var wrapper in m.WrapperMachineRes)
+                   foreach (var res in m.Reservations)
                    {
-                       if (wrapper.Reservation1.WashTime != reservation.WashTime && wrapper.Reservation1.reservationDate != reservation.reservationDate)
-                       {
+                       if(!res.Equals(reservation))
                            machines.Add(m);
-                       }
                    }
                }
            }

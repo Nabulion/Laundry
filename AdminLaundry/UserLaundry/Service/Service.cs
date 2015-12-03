@@ -57,14 +57,14 @@ namespace UserLaundry.Service
             try
             {
                 dateTime = Convert.ToDateTime(date);
-                if(dateTime >= DateTime.Now.AddDays(7) || dateTime <= DateTime.Now)
-                    throw new Exception("Date not within correct range (7 days)");
             }
-            catch (Exception)
+            catch
             {
                 
-                throw new Exception("Incorrect date format");
+                throw new Exception("Incorrect date format should be like day/month/year");
             }
+            if (dateTime >= DateTime.Now.AddDays(7) || dateTime <= DateTime.Now)
+                throw new Exception("Date not within correct range (7 days)");
             return dateTime;
         }
 
@@ -82,6 +82,14 @@ namespace UserLaundry.Service
         {
             r.reservationUsed = true;
             Db.SaveChanges();
+        }
+
+        public static StartedWashCost CreateStartedWashCost(Reservation reservation, MachineProgram machineProgram)
+        {
+            StartedWashCost cost = new StartedWashCost();
+            cost.Reservation1 = reservation;
+            cost.MachineProgram1 = machineProgram;
+            return cost;
         }
     }
 }
