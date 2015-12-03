@@ -32,5 +32,10 @@ namespace UserLaundry
         public virtual ICollection<MachineProgram> MachinePrograms { get; set; }
         public virtual ICollection<WrapperMachineRe> WrapperMachineRes { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
+
+        public override string ToString()
+        {
+            return id + machineType;
+        }
     }
 }

@@ -26,5 +26,10 @@ namespace UserLaundry
     
         public virtual Machine Machine1 { get; set; }
         public virtual ICollection<StartedWashCost> StartedWashCosts { get; set; }
+
+        public override string ToString()
+        {
+            return programType;
+        }
     }
 }

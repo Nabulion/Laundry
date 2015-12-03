@@ -35,7 +35,7 @@ namespace UserLaundry
 
         public override string ToString()
         {
-            return reservationDate + " ";
+            return reservationDate + " "+ WashTime1;
         }
 
         public List<Machine> GetNonStartedMachines()

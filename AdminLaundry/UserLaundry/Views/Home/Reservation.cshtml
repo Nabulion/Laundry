@@ -15,7 +15,7 @@
 <div>
     @foreach (var machine in @Model.Machines)
     {
-        @Html.ActionLink(@machine.machineType, "Reserved",
+        @Html.ActionLink(@machine.ToString(), "Reserved",
             new {resid = Model.LaundryUser.Reservations.LastOrDefault().id, machineid = machine.id}) <br/>
     }
 
