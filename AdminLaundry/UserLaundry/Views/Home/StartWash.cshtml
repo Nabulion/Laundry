@@ -15,7 +15,7 @@
 <div>
     @foreach (var m in Model.WrapperMachineRes)
     {
-        @m.Machine1.machineType @Html.ActionLink("Start", "Start", new{id = m.Reservation}) <br/>
+        @m.Machine1.machineType @Html.ActionLink("Start", "StartWash", new{id = m.Reservation}) <br/>
     }
 </div>
 </body>

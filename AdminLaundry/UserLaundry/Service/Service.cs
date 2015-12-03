@@ -30,6 +30,7 @@ namespace UserLaundry.Service
             Reservation tempReservation = new Reservation();
             tempReservation.LaundryUser1 = laundryUser;
             tempReservation.reservationDate = date;
+            tempReservation.reservationUsed = false;
             Db.Reservations.Add(tempReservation);
             Db.SaveChanges();
             return tempReservation;
@@ -46,7 +47,7 @@ namespace UserLaundry.Service
             WrapperMachineRe wrapper = new WrapperMachineRe();
             wrapper.Machine = machine.id;
             wrapper.Reservation = reservation.id;
-            reservation.Machine = machine.id;
+            //reservation.Machine = machine.id;
             Db.WrapperMachineRes.Add(wrapper);
             Db.SaveChanges();
         }
@@ -63,7 +64,7 @@ namespace UserLaundry.Service
                 
                 throw new Exception("Incorrect date format should be like day/month/year");
             }
-            if (dateTime >= DateTime.Now.AddDays(7) || dateTime <= DateTime.Now)
+            if (dateTime >= DateTime.Today.AddDays(7) || dateTime < DateTime.Today)
                 throw new Exception("Date not within correct range (7 days)");
             return dateTime;
         }
@@ -73,7 +74,7 @@ namespace UserLaundry.Service
             return Dao.Dao.FindReservation(id);
         }
 
-        public static Machine FindMachine(int? machineid)
+        public static Machine FindMachine(int machineid)
         {
             return Dao.Dao.FindMachine(machineid);
         }
@@ -90,6 +91,15 @@ namespace UserLaundry.Service
             cost.Reservation1 = reservation;
             cost.MachineProgram1 = machineProgram;
             return cost;
+        }
+
+        public static void DeleteReservation(Reservation r)
+        {
+            if (r != null)
+            {
+                Db.Reservations.Remove(r);
+                Db.SaveChanges();
+            }
         }
     }
 }

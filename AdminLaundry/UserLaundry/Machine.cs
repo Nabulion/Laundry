@@ -26,6 +26,7 @@ namespace UserLaundry
         public Nullable<int> timesUsed { get; set; }
         public string LaundryRoom { get; set; }
         public Nullable<bool> broken { get; set; }
+        public Nullable<bool> start { get; set; }
     
         public virtual LaundryRoom LaundryRoom1 { get; set; }
         public virtual ICollection<MachineProgram> MachinePrograms { get; set; }

@@ -28,7 +28,7 @@ namespace UserLaundry.Controllers
             catch (Exception)
             {
 
-                ModelState.AddModelError("LoginError", "no user with that name");
+                ModelState.AddModelError("LoginError", "no user found with that name, try default user Eunji");
                 return View("");
             }
             
@@ -44,22 +44,24 @@ namespace UserLaundry.Controllers
         public ActionResult PickDate(String userid, FormCollection fc)
         {
             LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
+          
             try
             {
                 DateTime date = Service.Service.ValidateDate(fc["date"]);
 
                 Service.Service.CreateReservation(laundryUser, date);
 
-                return RedirectToAction("UserPage", new { userid = userid });
+                return RedirectToAction("PickWashTime", new { userid = userid });
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("DateError", e.Message);
+               
                 return View(laundryUser);
             }
         }
 
-        public ActionResult UserPage(String userid)
+        public ActionResult PickWashTime(String userid)
         {
             try
             {
@@ -114,6 +116,7 @@ namespace UserLaundry.Controllers
         {
             Reservation r = Service.Service.FindReservation(id);
             Service.Service.StartWash(r);
+            //TODO needs a machine program
             Service.Service.CreateStartedWashCost(r, null);
             return RedirectToAction("AllReservations", new { userid = r.LaundryUser1.name });
         }

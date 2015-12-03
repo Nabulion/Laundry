@@ -31,15 +31,15 @@ namespace UserLaundry.Dao
            List<Machine> list = laundryRoom.Machines.ToList();
            foreach (var m in list)
            {
-               if (m.Reservations.Count == 0)
+               if (m.WrapperMachineRes.Count == 0 && !machines.Contains(m))
                {
                    machines.Add(m);
                }
                else
                {
-                   foreach (var res in m.Reservations)
+                   foreach (var res in m.WrapperMachineRes)
                    {
-                       if(!res.Equals(reservation))
+                       if(!res.Reservation1.Equals(reservation) && !machines.Contains(m))
                            machines.Add(m);
                    }
                }
@@ -58,7 +58,7 @@ namespace UserLaundry.Dao
            return _db.Reservations.Find(id);
        }
 
-       public static Machine FindMachine(int? machineid)
+       public static Machine FindMachine(int machineid)
        {
            return _db.Machines.Find(machineid);
        }

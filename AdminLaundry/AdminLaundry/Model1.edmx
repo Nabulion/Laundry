@@ -27,6 +27,7 @@
           <Property Name="timesUsed" Type="int" />
           <Property Name="LaundryRoom" Type="nvarchar" MaxLength="40" />
           <Property Name="broken" Type="bit" />
+          <Property Name="start" Type="bit" />
         </EntityType>
         <EntityType Name="MachineProgram">
           <Key>
@@ -55,6 +56,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Reservation" Type="int" />
           <Property Name="MachineProgram" Type="int" />
+          <Property Name="payed" Type="bit" />
         </EntityType>
         <EntityType Name="WashTime">
           <Key>
@@ -73,7 +75,7 @@
           <Property Name="Machine" Type="int" />
           <Property Name="Reservation" Type="int" />
         </EntityType>
-        <Association Name="FK__LaundryUs__Laund__145C0A3F">
+        <Association Name="FK__LaundryUs__Laund__164452B1">
           <End Role="LaundryRoom" Type="Self.LaundryRoom" Multiplicity="0..1" />
           <End Role="LaundryUser" Type="Self.LaundryUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -97,7 +99,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MachinePr__Machi__0AD2A005">
+        <Association Name="FK__MachinePr__Machi__0CBAE877">
           <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
           <End Role="MachineProgram" Type="Self.MachineProgram" Multiplicity="*" />
           <ReferentialConstraint>
@@ -109,7 +111,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reservati__Laund__1920BF5C">
+        <Association Name="FK__Reservati__Laund__1B0907CE">
           <End Role="LaundryUser" Type="Self.LaundryUser" Multiplicity="0..1" />
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -121,7 +123,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reservati__Machi__1B0907CE">
+        <Association Name="FK__Reservati__Machi__1CF15040">
           <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -133,7 +135,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Reservati__WashT__1A14E395">
+        <Association Name="FK__Reservati__WashT__1BFD2C07">
           <End Role="WashTime" Type="Self.WashTime" Multiplicity="0..1" />
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
           <ReferentialConstraint>
@@ -145,7 +147,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StartedWa__Machi__21B6055D">
+        <Association Name="FK__StartedWa__Machi__239E4DCF">
           <End Role="MachineProgram" Type="Self.MachineProgram" Multiplicity="0..1" />
           <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
           <ReferentialConstraint>
@@ -157,7 +159,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StartedWa__Reser__20C1E124">
+        <Association Name="FK__StartedWa__Reser__22AA2996">
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
           <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
           <ReferentialConstraint>
@@ -169,7 +171,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WashTime__Laundr__0F975522">
+        <Association Name="FK__WashTime__Laundr__117F9D94">
           <End Role="LaundryRoom" Type="Self.LaundryRoom" Multiplicity="0..1" />
           <End Role="WashTime" Type="Self.WashTime" Multiplicity="*" />
           <ReferentialConstraint>
@@ -181,7 +183,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WrapperMa__Machi__267ABA7A">
+        <Association Name="FK__WrapperMa__Machi__29572725">
           <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
           <End Role="WrapperMachineRes" Type="Self.WrapperMachineRes" Multiplicity="*" />
           <ReferentialConstraint>
@@ -193,7 +195,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WrapperMa__Reser__276EDEB3">
+        <Association Name="FK__WrapperMa__Reser__2A4B4B5E">
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
           <End Role="WrapperMachineRes" Type="Self.WrapperMachineRes" Multiplicity="*" />
           <ReferentialConstraint>
@@ -214,7 +216,7 @@
           <EntitySet Name="StartedWashCost" EntityType="Self.StartedWashCost" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WashTime" EntityType="Self.WashTime" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WrapperMachineRes" EntityType="Self.WrapperMachineRes" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__LaundryUs__Laund__145C0A3F" Association="Self.FK__LaundryUs__Laund__145C0A3F">
+          <AssociationSet Name="FK__LaundryUs__Laund__164452B1" Association="Self.FK__LaundryUs__Laund__164452B1">
             <End Role="LaundryRoom" EntitySet="LaundryRoom" />
             <End Role="LaundryUser" EntitySet="LaundryUser" />
           </AssociationSet>
@@ -222,39 +224,39 @@
             <End Role="LaundryRoom" EntitySet="LaundryRoom" />
             <End Role="Machine" EntitySet="Machine" />
           </AssociationSet>
-          <AssociationSet Name="FK__MachinePr__Machi__0AD2A005" Association="Self.FK__MachinePr__Machi__0AD2A005">
+          <AssociationSet Name="FK__MachinePr__Machi__0CBAE877" Association="Self.FK__MachinePr__Machi__0CBAE877">
             <End Role="Machine" EntitySet="Machine" />
             <End Role="MachineProgram" EntitySet="MachineProgram" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reservati__Laund__1920BF5C" Association="Self.FK__Reservati__Laund__1920BF5C">
+          <AssociationSet Name="FK__Reservati__Laund__1B0907CE" Association="Self.FK__Reservati__Laund__1B0907CE">
             <End Role="LaundryUser" EntitySet="LaundryUser" />
             <End Role="Reservation" EntitySet="Reservation" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reservati__Machi__1B0907CE" Association="Self.FK__Reservati__Machi__1B0907CE">
+          <AssociationSet Name="FK__Reservati__Machi__1CF15040" Association="Self.FK__Reservati__Machi__1CF15040">
             <End Role="Machine" EntitySet="Machine" />
             <End Role="Reservation" EntitySet="Reservation" />
           </AssociationSet>
-          <AssociationSet Name="FK__Reservati__WashT__1A14E395" Association="Self.FK__Reservati__WashT__1A14E395">
+          <AssociationSet Name="FK__Reservati__WashT__1BFD2C07" Association="Self.FK__Reservati__WashT__1BFD2C07">
             <End Role="WashTime" EntitySet="WashTime" />
             <End Role="Reservation" EntitySet="Reservation" />
           </AssociationSet>
-          <AssociationSet Name="FK__StartedWa__Machi__21B6055D" Association="Self.FK__StartedWa__Machi__21B6055D">
+          <AssociationSet Name="FK__StartedWa__Machi__239E4DCF" Association="Self.FK__StartedWa__Machi__239E4DCF">
             <End Role="MachineProgram" EntitySet="MachineProgram" />
             <End Role="StartedWashCost" EntitySet="StartedWashCost" />
           </AssociationSet>
-          <AssociationSet Name="FK__StartedWa__Reser__20C1E124" Association="Self.FK__StartedWa__Reser__20C1E124">
+          <AssociationSet Name="FK__StartedWa__Reser__22AA2996" Association="Self.FK__StartedWa__Reser__22AA2996">
             <End Role="Reservation" EntitySet="Reservation" />
             <End Role="StartedWashCost" EntitySet="StartedWashCost" />
           </AssociationSet>
-          <AssociationSet Name="FK__WashTime__Laundr__0F975522" Association="Self.FK__WashTime__Laundr__0F975522">
+          <AssociationSet Name="FK__WashTime__Laundr__117F9D94" Association="Self.FK__WashTime__Laundr__117F9D94">
             <End Role="LaundryRoom" EntitySet="LaundryRoom" />
             <End Role="WashTime" EntitySet="WashTime" />
           </AssociationSet>
-          <AssociationSet Name="FK__WrapperMa__Machi__267ABA7A" Association="Self.FK__WrapperMa__Machi__267ABA7A">
+          <AssociationSet Name="FK__WrapperMa__Machi__29572725" Association="Self.FK__WrapperMa__Machi__29572725">
             <End Role="Machine" EntitySet="Machine" />
             <End Role="WrapperMachineRes" EntitySet="WrapperMachineRes" />
           </AssociationSet>
-          <AssociationSet Name="FK__WrapperMa__Reser__276EDEB3" Association="Self.FK__WrapperMa__Reser__276EDEB3">
+          <AssociationSet Name="FK__WrapperMa__Reser__2A4B4B5E" Association="Self.FK__WrapperMa__Reser__2A4B4B5E">
             <End Role="Reservation" EntitySet="Reservation" />
             <End Role="WrapperMachineRes" EntitySet="WrapperMachineRes" />
           </AssociationSet>
@@ -294,6 +296,7 @@
           <NavigationProperty Name="MachinePrograms" Relationship="Self.FK__MachinePr__Machi__09DE7BCC" FromRole="Machine" ToRole="MachineProgram" />
           <NavigationProperty Name="WrapperMachineRes" Relationship="Self.FK__WrapperMa__Machi__239E4DCF" FromRole="Machine" ToRole="WrapperMachineRes" />
           <NavigationProperty Name="Reservations" Relationship="LaundryDBModel1.FK__Reservati__Machi__1B0907CE" FromRole="Machine" ToRole="Reservation" />
+          <Property Name="start" Type="Boolean" />
         </EntityType>
         <EntityType Name="MachineProgram">
           <Key>
@@ -331,6 +334,7 @@
           <Property Name="MachineProgram" Type="Int32" />
           <NavigationProperty Name="MachineProgram1" Relationship="Self.FK__StartedWa__Machi__1ED998B2" FromRole="StartedWashCost" ToRole="MachineProgram" />
           <NavigationProperty Name="Reservation1" Relationship="Self.FK__StartedWa__Reser__1DE57479" FromRole="StartedWashCost" ToRole="Reservation" />
+          <Property Name="payed" Type="Boolean" />
         </EntityType>
         <EntityType Name="WashTime">
           <Key>
@@ -563,6 +567,7 @@
           <EntitySetMapping Name="Machines">
             <EntityTypeMapping TypeName="LaundryDBModel1.Machine">
               <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="start" ColumnName="start" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="machineType" ColumnName="machineType" />
                 <ScalarProperty Name="timesUsed" ColumnName="timesUsed" />
@@ -596,6 +601,7 @@
           <EntitySetMapping Name="StartedWashCosts">
             <EntityTypeMapping TypeName="LaundryDBModel1.StartedWashCost">
               <MappingFragment StoreEntitySet="StartedWashCost">
+                <ScalarProperty Name="payed" ColumnName="payed" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Reservation" ColumnName="Reservation" />
                 <ScalarProperty Name="MachineProgram" ColumnName="MachineProgram" />

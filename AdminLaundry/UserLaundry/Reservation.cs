@@ -32,5 +32,10 @@ namespace UserLaundry
         public virtual ICollection<StartedWashCost> StartedWashCosts { get; set; }
         public virtual ICollection<WrapperMachineRe> WrapperMachineRes { get; set; }
         public virtual Machine Machine1 { get; set; }
+
+        public override string ToString()
+        {
+            return reservationDate + "";
+        }
     }
 }

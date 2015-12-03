@@ -17,6 +17,7 @@ namespace AdminLaundry
         public int id { get; set; }
         public Nullable<int> Reservation { get; set; }
         public Nullable<int> MachineProgram { get; set; }
+        public Nullable<bool> payed { get; set; }
     
         public virtual MachineProgram MachineProgram1 { get; set; }
         public virtual Reservation Reservation1 { get; set; }
