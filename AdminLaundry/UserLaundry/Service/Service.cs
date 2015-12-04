@@ -106,5 +106,16 @@ namespace UserLaundry.Service
         {
             return Dao.Dao.FindProgram(programid);
         }
+
+        public static void DeleteResWithNulls(Reservation reservation)
+        {
+            if (reservation != null)
+            {
+                if (reservation.WashTime1 == null || reservation.Machines.Count == 0)
+                {
+                    Db.Reservations.Remove(reservation);
+                }
+            }
+        }
     }
 }

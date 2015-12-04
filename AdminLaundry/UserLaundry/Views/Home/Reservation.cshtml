@@ -13,10 +13,10 @@
 </head>
 <body>
 <div>
-    @foreach (var machine in @Model.Machines)
+    @foreach (var machine in @Model.LaundryUser.LaundryRoom1.FindMachinesAvailable(@Model.Reservation))
     {
         @Html.ActionLink(@machine.ToString(), "Reserved",
-            new {resid = Model.LaundryUser.Reservations.LastOrDefault().id, machineid = machine.id}) <br/>
+            new {resid = Model.Reservation.id, machineid = machine.id}) <br/>
     }
 
     @Html.ActionLink("Go to reservations", "AllReservations", new{userid = Model.LaundryUser.name})

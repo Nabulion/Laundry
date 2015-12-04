@@ -11,5 +11,6 @@ namespace UserLaundry.Models
         public LaundryUser LaundryUser { get; set; }
         public WashTime WashTime { get; set; }
         public List<Machine> Machines { get; set; }
+        public Reservation Reservation { get; set; }
     }
 }

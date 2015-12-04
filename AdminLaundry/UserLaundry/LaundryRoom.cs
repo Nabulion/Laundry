@@ -40,5 +40,45 @@ namespace UserLaundry
             }
             return list;
         }
+
+        public List<Machine> FindMachinesAvailable(Reservation reservation)
+        {
+            List<Machine> machines = new List<Machine>();
+            foreach (var m in Machines)
+            {
+                if (m.Reservations.Count == 0)
+                {
+                    if (!machines.Contains(m))
+                        machines.Add(m);
+                }
+                else
+                {
+                    foreach (var res in m.Reservations)
+                    {
+                        if (res.reservationDate != reservation.reservationDate &&
+                            res.WashTime1 == reservation.WashTime1)
+                        {
+                            if (!machines.Contains(m))
+                                machines.Add(m);
+                        }
+                        else if (res.reservationDate == reservation.reservationDate &&
+                          res.WashTime1 != reservation.WashTime1)
+                        {
+                            if (!machines.Contains(m))
+                                machines.Add(m);
+                        }
+                        else if (res.reservationDate != reservation.reservationDate &&
+                                 res.WashTime1 != reservation.WashTime1)
+                        {
+                            if (!machines.Contains(m))
+                                machines.Add(m);
+                        }
+
+                    }
+                }
+            }
+
+            return machines;
+        }
     }
 }
