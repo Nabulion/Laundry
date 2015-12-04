@@ -26,10 +26,5 @@ namespace UserLaundry
     
         public virtual LaundryRoom LaundryRoom1 { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
-
-        public override string ToString()
-        {
-            return fromTime + "-" + toTime;
-        }
     }
 }

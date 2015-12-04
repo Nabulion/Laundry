@@ -17,20 +17,18 @@ namespace AdminLaundry
         public Reservation()
         {
             this.StartedWashCosts = new HashSet<StartedWashCost>();
-            this.WrapperMachineRes = new HashSet<WrapperMachineRe>();
+            this.Machines = new HashSet<Machine>();
         }
     
         public int id { get; set; }
         public string LaundryUser { get; set; }
         public Nullable<System.DateTime> reservationDate { get; set; }
         public Nullable<int> WashTime { get; set; }
-        public Nullable<int> Machine { get; set; }
         public Nullable<bool> reservationUsed { get; set; }
     
         public virtual LaundryUser LaundryUser1 { get; set; }
         public virtual WashTime WashTime1 { get; set; }
         public virtual ICollection<StartedWashCost> StartedWashCosts { get; set; }
-        public virtual ICollection<WrapperMachineRe> WrapperMachineRes { get; set; }
-        public virtual Machine Machine1 { get; set; }
+        public virtual ICollection<Machine> Machines { get; set; }
     }
 }

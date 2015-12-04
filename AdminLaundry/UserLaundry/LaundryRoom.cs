@@ -22,6 +22,7 @@ namespace UserLaundry
         }
     
         public string name { get; set; }
+        public Nullable<int> maxReservationPerUser { get; set; }
     
         public virtual ICollection<LaundryUser> LaundryUsers { get; set; }
         public virtual ICollection<Machine> Machines { get; set; }

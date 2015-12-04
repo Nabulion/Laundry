@@ -23,6 +23,7 @@ namespace AdminLaundry
         public string programType { get; set; }
         public Nullable<int> Machine { get; set; }
         public Nullable<decimal> price { get; set; }
+        public Nullable<int> programTime { get; set; }
     
         public virtual Machine Machine1 { get; set; }
         public virtual ICollection<StartedWashCost> StartedWashCosts { get; set; }

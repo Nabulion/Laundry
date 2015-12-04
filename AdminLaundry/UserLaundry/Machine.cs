@@ -17,7 +17,6 @@ namespace UserLaundry
         public Machine()
         {
             this.MachinePrograms = new HashSet<MachineProgram>();
-            this.WrapperMachineRes = new HashSet<WrapperMachineRe>();
             this.Reservations = new HashSet<Reservation>();
         }
     
@@ -30,12 +29,6 @@ namespace UserLaundry
     
         public virtual LaundryRoom LaundryRoom1 { get; set; }
         public virtual ICollection<MachineProgram> MachinePrograms { get; set; }
-        public virtual ICollection<WrapperMachineRe> WrapperMachineRes { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
-
-        public override string ToString()
-        {
-            return id + machineType;
-        }
     }
 }

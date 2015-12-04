@@ -9,13 +9,13 @@ namespace UserLaundry.Dao
 {
    public static class Dao
    {
-       private static LaundryDBEntities1 _db = null;
+       private static LaundryDBEntities2 _db = null;
 
-       public static LaundryDBEntities1 GetDbEntities()
+       public static LaundryDBEntities2 GetDbEntities()
        {
            if (_db == null)
            {
-               _db = new LaundryDBEntities1();
+               _db = new LaundryDBEntities2();
            }
            return _db;
        }
@@ -31,29 +31,29 @@ namespace UserLaundry.Dao
            List<Machine> list = laundryRoom.Machines.ToList();
            foreach (var m in list)
            {
-               if (m.WrapperMachineRes.Count == 0)
+               if (m.Reservations.Count == 0)
                {       
                    if(!machines.Contains(m))
                    machines.Add(m);
                }
                else
                {
-                   foreach (var res in m.WrapperMachineRes)
+                   foreach (var res in m.Reservations)
                    {
-                       if (res.Reservation1.reservationDate != reservation.reservationDate && 
-                           res.Reservation1.WashTime1 == reservation.WashTime1)
+                       if (res.reservationDate != reservation.reservationDate && 
+                           res.WashTime1 == reservation.WashTime1)
                        {           
                            if(!machines.Contains(m))
                            machines.Add(m);
                        }
-                       else if (res.Reservation1.reservationDate == reservation.reservationDate &&
-                         res.Reservation1.WashTime1 != reservation.WashTime1)
+                       else if (res.reservationDate == reservation.reservationDate &&
+                         res.WashTime1 != reservation.WashTime1)
                        {
                            if (!machines.Contains(m))
                            machines.Add(m);
                        }
-                       else if (res.Reservation1.reservationDate != reservation.reservationDate &&
-                                res.Reservation1.WashTime1 != reservation.WashTime1)
+                       else if (res.reservationDate != reservation.reservationDate &&
+                                res.WashTime1 != reservation.WashTime1)
                        {
                            if (!machines.Contains(m))
                            machines.Add(m);

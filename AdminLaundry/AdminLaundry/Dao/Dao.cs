@@ -8,13 +8,13 @@ namespace AdminLaundry.Dao
 {
    public static class Dao
    {
-       private static LaundryDBEntities1 _db = null;
+       private static LaundryDBEntities2 _db = null;
 
-       public static LaundryDBEntities1 GetDbEntities()
+       public static LaundryDBEntities2 GetDbEntities()
        {
            if (_db == null)
            {
-               _db = new LaundryDBEntities1();
+               _db = new LaundryDBEntities2();
            }
            return _db;
        }

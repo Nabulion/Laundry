@@ -9,7 +9,7 @@ namespace AdminLaundry.Service
 {
    public static class Service
    {
-       private static LaundryDBEntities1 Db = Dao.Dao.GetDbEntities();
+       private static LaundryDBEntities2 Db = Dao.Dao.GetDbEntities();
 
        public static LaundryUser CreateLaundryUser(LaundryRoom laundryRoom, String name)
        {

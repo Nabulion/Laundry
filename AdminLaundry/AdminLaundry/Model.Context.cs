@@ -13,10 +13,10 @@ namespace AdminLaundry
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class LaundryDBEntities1 : DbContext
+    public partial class LaundryDBEntities2 : DbContext
     {
-        public LaundryDBEntities1()
-            : base("name=LaundryDBEntities1")
+        public LaundryDBEntities2()
+            : base("name=LaundryDBEntities2")
         {
         }
     
@@ -32,6 +32,5 @@ namespace AdminLaundry
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<StartedWashCost> StartedWashCosts { get; set; }
         public DbSet<WashTime> WashTimes { get; set; }
-        public DbSet<WrapperMachineRe> WrapperMachineRes { get; set; }
     }
 }

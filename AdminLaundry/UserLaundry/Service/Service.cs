@@ -9,7 +9,7 @@ namespace UserLaundry.Service
 {
     public static class Service
     {
-        private static readonly LaundryDBEntities1 Db = Dao.Dao.GetDbEntities();
+        private static readonly LaundryDBEntities2 Db = Dao.Dao.GetDbEntities();
 
         public static LaundryUser FindLaundryUser(String name)
         {
@@ -45,11 +45,7 @@ namespace UserLaundry.Service
 
         public static void AddMachineReservation(Reservation reservation, Machine machine)
         {
-            WrapperMachineRe wrapper = new WrapperMachineRe();
-            wrapper.Machine = machine.id;
-            wrapper.Reservation = reservation.id;
-            //reservation.Machine = machine.id;
-            Db.WrapperMachineRes.Add(wrapper);
+            reservation.Machines.Add(machine);
             Db.SaveChanges();
         }
 
