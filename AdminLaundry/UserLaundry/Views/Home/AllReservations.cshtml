@@ -16,14 +16,20 @@
     @if (Model.GetNonUsedReservations().Count == 0)
     {
         <div>You do not have any unfinnished reservations currently</div>
+        foreach (var res in Model.GetUsedReservations())
+        {
+            @Html.ActionLink(@res.ToString(), "StartWash", new { id = res.id })
+        }
     }
     else
     {
-        foreach (var res in Model.GetNonUsedReservations())
+        foreach (var res in Model.Reservations)
         {
-            @Html.ActionLink(@res.ToString(), "StartWash", new {id = res.id})
-
-            <br/>
+            if (res.Machines.Count != 0)
+            {
+                @Html.ActionLink(@res.ToString(), "StartWash", new {id = res.id})
+                <br/>
+            }
         }
     }
 

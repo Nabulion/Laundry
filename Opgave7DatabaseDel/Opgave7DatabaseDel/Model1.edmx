@@ -1,0 +1,587 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LaundryDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LaundryRoom">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="maxReservationPerUser" Type="int" />
+        </EntityType>
+        <EntityType Name="LaundryUser">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="LaundryRoom" Type="nvarchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="machineType" Type="nvarchar" MaxLength="40" />
+          <Property Name="timesUsed" Type="int" />
+          <Property Name="LaundryRoom" Type="nvarchar" MaxLength="40" />
+          <Property Name="broken" Type="bit" />
+          <Property Name="start" Type="bit" />
+        </EntityType>
+        <EntityType Name="MachineProgram">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="programType" Type="nvarchar" MaxLength="40" />
+          <Property Name="Machine" Type="int" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="programTime" Type="int" />
+        </EntityType>
+        <EntityType Name="ManyToMany">
+          <Key>
+            <PropertyRef Name="Machine" />
+            <PropertyRef Name="Reservation" />
+          </Key>
+          <Property Name="Machine" Type="int" Nullable="false" />
+          <Property Name="Reservation" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LaundryUser" Type="nvarchar" MaxLength="40" />
+          <Property Name="reservationDate" Type="datetime" />
+          <Property Name="WashTime" Type="int" />
+          <Property Name="reservationUsed" Type="bit" />
+        </EntityType>
+        <EntityType Name="StartedWashCost">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Reservation" Type="int" />
+          <Property Name="MachineProgram" Type="int" />
+          <Property Name="payed" Type="bit" />
+        </EntityType>
+        <EntityType Name="WashTime">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fromTime" Type="time" Precision="7" />
+          <Property Name="toTime" Type="time" Precision="7" />
+          <Property Name="LaundryRoom" Type="nvarchar" MaxLength="40" />
+        </EntityType>
+        <Association Name="FK__LaundryUs__Laund__164452B1">
+          <End Role="LaundryRoom" Type="Self.LaundryRoom" Multiplicity="0..1" />
+          <End Role="LaundryUser" Type="Self.LaundryUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaundryRoom">
+              <PropertyRef Name="name" />
+            </Principal>
+            <Dependent Role="LaundryUser">
+              <PropertyRef Name="LaundryRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Machine__Laundry__060DEAE8">
+          <End Role="LaundryRoom" Type="Self.LaundryRoom" Multiplicity="0..1" />
+          <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaundryRoom">
+              <PropertyRef Name="name" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="LaundryRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MachinePr__Machi__0CBAE877">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
+          <End Role="MachineProgram" Type="Self.MachineProgram" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MachineProgram">
+              <PropertyRef Name="Machine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ManyToMan__Machi__286302EC">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
+          <End Role="ManyToMany" Type="Self.ManyToMany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ManyToMany">
+              <PropertyRef Name="Machine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ManyToMan__Reser__29572725">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="1" />
+          <End Role="ManyToMany" Type="Self.ManyToMany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ManyToMany">
+              <PropertyRef Name="Reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__Laund__1B0907CE">
+          <End Role="LaundryUser" Type="Self.LaundryUser" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaundryUser">
+              <PropertyRef Name="name" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="LaundryUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__WashT__1BFD2C07">
+          <End Role="WashTime" Type="Self.WashTime" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WashTime">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="WashTime" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StartedWa__Machi__22AA2996">
+          <End Role="MachineProgram" Type="Self.MachineProgram" Multiplicity="0..1" />
+          <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MachineProgram">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="StartedWashCost">
+              <PropertyRef Name="MachineProgram" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StartedWa__Reser__21B6055D">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="StartedWashCost">
+              <PropertyRef Name="Reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WashTime__Laundr__117F9D94">
+          <End Role="LaundryRoom" Type="Self.LaundryRoom" Multiplicity="0..1" />
+          <End Role="WashTime" Type="Self.WashTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaundryRoom">
+              <PropertyRef Name="name" />
+            </Principal>
+            <Dependent Role="WashTime">
+              <PropertyRef Name="LaundryRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LaundryDBModelStoreContainer">
+          <EntitySet Name="LaundryRoom" EntityType="Self.LaundryRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LaundryUser" EntityType="Self.LaundryUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MachineProgram" EntityType="Self.MachineProgram" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ManyToMany" EntityType="Self.ManyToMany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StartedWashCost" EntityType="Self.StartedWashCost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WashTime" EntityType="Self.WashTime" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__LaundryUs__Laund__164452B1" Association="Self.FK__LaundryUs__Laund__164452B1">
+            <End Role="LaundryRoom" EntitySet="LaundryRoom" />
+            <End Role="LaundryUser" EntitySet="LaundryUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Machine__Laundry__060DEAE8" Association="Self.FK__Machine__Laundry__060DEAE8">
+            <End Role="LaundryRoom" EntitySet="LaundryRoom" />
+            <End Role="Machine" EntitySet="Machine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MachinePr__Machi__0CBAE877" Association="Self.FK__MachinePr__Machi__0CBAE877">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="MachineProgram" EntitySet="MachineProgram" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ManyToMan__Machi__286302EC" Association="Self.FK__ManyToMan__Machi__286302EC">
+            <End Role="Machine" EntitySet="Machine" />
+            <End Role="ManyToMany" EntitySet="ManyToMany" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ManyToMan__Reser__29572725" Association="Self.FK__ManyToMan__Reser__29572725">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="ManyToMany" EntitySet="ManyToMany" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__Laund__1B0907CE" Association="Self.FK__Reservati__Laund__1B0907CE">
+            <End Role="LaundryUser" EntitySet="LaundryUser" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__WashT__1BFD2C07" Association="Self.FK__Reservati__WashT__1BFD2C07">
+            <End Role="WashTime" EntitySet="WashTime" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StartedWa__Machi__22AA2996" Association="Self.FK__StartedWa__Machi__22AA2996">
+            <End Role="MachineProgram" EntitySet="MachineProgram" />
+            <End Role="StartedWashCost" EntitySet="StartedWashCost" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StartedWa__Reser__21B6055D" Association="Self.FK__StartedWa__Reser__21B6055D">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="StartedWashCost" EntitySet="StartedWashCost" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WashTime__Laundr__117F9D94" Association="Self.FK__WashTime__Laundr__117F9D94">
+            <End Role="LaundryRoom" EntitySet="LaundryRoom" />
+            <End Role="WashTime" EntitySet="WashTime" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LaundryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LaundryRoom">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="maxReservationPerUser" Type="Int32" />
+          <NavigationProperty Name="LaundryUsers" Relationship="Self.FK__LaundryUs__Laund__164452B1" FromRole="LaundryRoom" ToRole="LaundryUser" />
+          <NavigationProperty Name="Machines" Relationship="Self.FK__Machine__Laundry__060DEAE8" FromRole="LaundryRoom" ToRole="Machine" />
+          <NavigationProperty Name="WashTimes" Relationship="Self.FK__WashTime__Laundr__117F9D94" FromRole="LaundryRoom" ToRole="WashTime" />
+        </EntityType>
+        <EntityType Name="LaundryUser">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LaundryRoom" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LaundryRoom1" Relationship="Self.FK__LaundryUs__Laund__164452B1" FromRole="LaundryUser" ToRole="LaundryRoom" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK__Reservati__Laund__1B0907CE" FromRole="LaundryUser" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="machineType" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="timesUsed" Type="Int32" />
+          <Property Name="LaundryRoom" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="broken" Type="Boolean" />
+          <Property Name="start" Type="Boolean" />
+          <NavigationProperty Name="LaundryRoom1" Relationship="Self.FK__Machine__Laundry__060DEAE8" FromRole="Machine" ToRole="LaundryRoom" />
+          <NavigationProperty Name="MachinePrograms" Relationship="Self.FK__MachinePr__Machi__0CBAE877" FromRole="Machine" ToRole="MachineProgram" />
+          <NavigationProperty Name="Reservations" Relationship="Self.ManyToMany" FromRole="Machine" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="MachineProgram">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="programType" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Machine" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="programTime" Type="Int32" />
+          <NavigationProperty Name="Machine1" Relationship="Self.FK__MachinePr__Machi__0CBAE877" FromRole="MachineProgram" ToRole="Machine" />
+          <NavigationProperty Name="StartedWashCosts" Relationship="Self.FK__StartedWa__Machi__22AA2996" FromRole="MachineProgram" ToRole="StartedWashCost" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LaundryUser" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="reservationDate" Type="DateTime" Precision="3" />
+          <Property Name="WashTime" Type="Int32" />
+          <Property Name="reservationUsed" Type="Boolean" />
+          <NavigationProperty Name="LaundryUser1" Relationship="Self.FK__Reservati__Laund__1B0907CE" FromRole="Reservation" ToRole="LaundryUser" />
+          <NavigationProperty Name="WashTime1" Relationship="Self.FK__Reservati__WashT__1BFD2C07" FromRole="Reservation" ToRole="WashTime" />
+          <NavigationProperty Name="StartedWashCosts" Relationship="Self.FK__StartedWa__Reser__21B6055D" FromRole="Reservation" ToRole="StartedWashCost" />
+          <NavigationProperty Name="Machines" Relationship="Self.ManyToMany" FromRole="Reservation" ToRole="Machine" />
+        </EntityType>
+        <EntityType Name="StartedWashCost">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reservation" Type="Int32" />
+          <Property Name="MachineProgram" Type="Int32" />
+          <Property Name="payed" Type="Boolean" />
+          <NavigationProperty Name="MachineProgram1" Relationship="Self.FK__StartedWa__Machi__22AA2996" FromRole="StartedWashCost" ToRole="MachineProgram" />
+          <NavigationProperty Name="Reservation1" Relationship="Self.FK__StartedWa__Reser__21B6055D" FromRole="StartedWashCost" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="WashTime">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fromTime" Type="Time" Precision="7" />
+          <Property Name="toTime" Type="Time" Precision="7" />
+          <Property Name="LaundryRoom" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LaundryRoom1" Relationship="Self.FK__WashTime__Laundr__117F9D94" FromRole="WashTime" ToRole="LaundryRoom" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK__Reservati__WashT__1BFD2C07" FromRole="WashTime" ToRole="Reservation" />
+        </EntityType>
+        <Association Name="FK__LaundryUs__Laund__164452B1">
+          <End Role="LaundryRoom" Type="Self.LaundryRoom" Multiplicity="0..1" />
+          <End Role="LaundryUser" Type="Self.LaundryUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaundryRoom">
+              <PropertyRef Name="name" />
+            </Principal>
+            <Dependent Role="LaundryUser">
+              <PropertyRef Name="LaundryRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Machine__Laundry__060DEAE8">
+          <End Role="LaundryRoom" Type="Self.LaundryRoom" Multiplicity="0..1" />
+          <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaundryRoom">
+              <PropertyRef Name="name" />
+            </Principal>
+            <Dependent Role="Machine">
+              <PropertyRef Name="LaundryRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WashTime__Laundr__117F9D94">
+          <End Role="LaundryRoom" Type="Self.LaundryRoom" Multiplicity="0..1" />
+          <End Role="WashTime" Type="Self.WashTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaundryRoom">
+              <PropertyRef Name="name" />
+            </Principal>
+            <Dependent Role="WashTime">
+              <PropertyRef Name="LaundryRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__Laund__1B0907CE">
+          <End Role="LaundryUser" Type="Self.LaundryUser" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LaundryUser">
+              <PropertyRef Name="name" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="LaundryUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MachinePr__Machi__0CBAE877">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="0..1" />
+          <End Role="MachineProgram" Type="Self.MachineProgram" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machine">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MachineProgram">
+              <PropertyRef Name="Machine" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StartedWa__Machi__22AA2996">
+          <End Role="MachineProgram" Type="Self.MachineProgram" Multiplicity="0..1" />
+          <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MachineProgram">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="StartedWashCost">
+              <PropertyRef Name="MachineProgram" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__WashT__1BFD2C07">
+          <End Role="WashTime" Type="Self.WashTime" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WashTime">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="WashTime" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StartedWa__Reser__21B6055D">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="StartedWashCost">
+              <PropertyRef Name="Reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ManyToMany">
+          <End Role="Machine" Type="Self.Machine" Multiplicity="*" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="LaundryDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LaundryRooms" EntityType="Self.LaundryRoom" />
+          <EntitySet Name="LaundryUsers" EntityType="Self.LaundryUser" />
+          <EntitySet Name="Machines" EntityType="Self.Machine" />
+          <EntitySet Name="MachinePrograms" EntityType="Self.MachineProgram" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <EntitySet Name="StartedWashCosts" EntityType="Self.StartedWashCost" />
+          <EntitySet Name="WashTimes" EntityType="Self.WashTime" />
+          <AssociationSet Name="FK__LaundryUs__Laund__164452B1" Association="Self.FK__LaundryUs__Laund__164452B1">
+            <End Role="LaundryRoom" EntitySet="LaundryRooms" />
+            <End Role="LaundryUser" EntitySet="LaundryUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Machine__Laundry__060DEAE8" Association="Self.FK__Machine__Laundry__060DEAE8">
+            <End Role="LaundryRoom" EntitySet="LaundryRooms" />
+            <End Role="Machine" EntitySet="Machines" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WashTime__Laundr__117F9D94" Association="Self.FK__WashTime__Laundr__117F9D94">
+            <End Role="LaundryRoom" EntitySet="LaundryRooms" />
+            <End Role="WashTime" EntitySet="WashTimes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__Laund__1B0907CE" Association="Self.FK__Reservati__Laund__1B0907CE">
+            <End Role="LaundryUser" EntitySet="LaundryUsers" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MachinePr__Machi__0CBAE877" Association="Self.FK__MachinePr__Machi__0CBAE877">
+            <End Role="Machine" EntitySet="Machines" />
+            <End Role="MachineProgram" EntitySet="MachinePrograms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StartedWa__Machi__22AA2996" Association="Self.FK__StartedWa__Machi__22AA2996">
+            <End Role="MachineProgram" EntitySet="MachinePrograms" />
+            <End Role="StartedWashCost" EntitySet="StartedWashCosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__WashT__1BFD2C07" Association="Self.FK__Reservati__WashT__1BFD2C07">
+            <End Role="WashTime" EntitySet="WashTimes" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StartedWa__Reser__21B6055D" Association="Self.FK__StartedWa__Reser__21B6055D">
+            <End Role="Reservation" EntitySet="Reservations" />
+            <End Role="StartedWashCost" EntitySet="StartedWashCosts" />
+          </AssociationSet>
+          <AssociationSet Name="ManyToMany" Association="Self.ManyToMany">
+            <End Role="Machine" EntitySet="Machines" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LaundryDBModelStoreContainer" CdmEntityContainer="LaundryDBEntities">
+          <EntitySetMapping Name="LaundryRooms">
+            <EntityTypeMapping TypeName="LaundryDBModel.LaundryRoom">
+              <MappingFragment StoreEntitySet="LaundryRoom">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="maxReservationPerUser" ColumnName="maxReservationPerUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LaundryUsers">
+            <EntityTypeMapping TypeName="LaundryDBModel.LaundryUser">
+              <MappingFragment StoreEntitySet="LaundryUser">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="LaundryRoom" ColumnName="LaundryRoom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Machines">
+            <EntityTypeMapping TypeName="LaundryDBModel.Machine">
+              <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="machineType" ColumnName="machineType" />
+                <ScalarProperty Name="timesUsed" ColumnName="timesUsed" />
+                <ScalarProperty Name="LaundryRoom" ColumnName="LaundryRoom" />
+                <ScalarProperty Name="broken" ColumnName="broken" />
+                <ScalarProperty Name="start" ColumnName="start" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MachinePrograms">
+            <EntityTypeMapping TypeName="LaundryDBModel.MachineProgram">
+              <MappingFragment StoreEntitySet="MachineProgram">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="programType" ColumnName="programType" />
+                <ScalarProperty Name="Machine" ColumnName="Machine" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="programTime" ColumnName="programTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="LaundryDBModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="LaundryUser" ColumnName="LaundryUser" />
+                <ScalarProperty Name="reservationDate" ColumnName="reservationDate" />
+                <ScalarProperty Name="WashTime" ColumnName="WashTime" />
+                <ScalarProperty Name="reservationUsed" ColumnName="reservationUsed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StartedWashCosts">
+            <EntityTypeMapping TypeName="LaundryDBModel.StartedWashCost">
+              <MappingFragment StoreEntitySet="StartedWashCost">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Reservation" ColumnName="Reservation" />
+                <ScalarProperty Name="MachineProgram" ColumnName="MachineProgram" />
+                <ScalarProperty Name="payed" ColumnName="payed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WashTimes">
+            <EntityTypeMapping TypeName="LaundryDBModel.WashTime">
+              <MappingFragment StoreEntitySet="WashTime">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fromTime" ColumnName="fromTime" />
+                <ScalarProperty Name="toTime" ColumnName="toTime" />
+                <ScalarProperty Name="LaundryRoom" ColumnName="LaundryRoom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ManyToMany" TypeName="LaundryDBModel.ManyToMany" StoreEntitySet="ManyToMany">
+            <EndProperty Name="Machine">
+              <ScalarProperty Name="id" ColumnName="Machine" />
+            </EndProperty>
+            <EndProperty Name="Reservation">
+              <ScalarProperty Name="id" ColumnName="Reservation" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

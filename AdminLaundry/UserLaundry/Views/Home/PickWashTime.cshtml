@@ -21,12 +21,16 @@
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(@wt.ToString(), "Reservation", new { washid = wt.id, userid = Model.LaundryUser.name, resid = Model.Reservation.id })
+                       
+                        @if (!wt.checkWashTime(Model.Reservation))
+                        {
+                            @Html.ActionLink(@wt.ToString(), "WashTimePicked", new {washid = wt.id, resid = Model.Reservation.id})
+                        }
                     </td>
                 </tr>
 
             }
-            @Html.ActionLink("Back", "Back", new { resid = Model.Reservation.id })
+            @Html.ActionLink("Back", "Back", new { resid = Model.Reservation.id, userid = Model.LaundryUser.name })
         </table>
 
 

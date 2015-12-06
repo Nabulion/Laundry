@@ -7,27 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminLaundry
+namespace Opgave7DatabaseDel
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class LaundryUser
+    public partial class StartedWashCost
     {
-        public LaundryUser()
-        {
-            this.Reservations = new HashSet<Reservation>();
-        }
+        public int id { get; set; }
+        public Nullable<int> Reservation { get; set; }
+        public Nullable<int> MachineProgram { get; set; }
+        public Nullable<bool> payed { get; set; }
     
-        public string name { get; set; }
-        public string LaundryRoom { get; set; }
-    
-        public virtual LaundryRoom LaundryRoom1 { get; set; }
-        public virtual ICollection<Reservation> Reservations { get; set; }
-
-        public override string ToString()
-        {
-            return name;
-        }
+        public virtual MachineProgram MachineProgram1 { get; set; }
+        public virtual Reservation Reservation1 { get; set; }
     }
 }

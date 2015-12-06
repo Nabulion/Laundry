@@ -11,7 +11,7 @@ namespace UserLaundry
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class LaundryRoom
     {
         public LaundryRoom()
@@ -20,10 +20,10 @@ namespace UserLaundry
             this.Machines = new HashSet<Machine>();
             this.WashTimes = new HashSet<WashTime>();
         }
-    
+
         public string name { get; set; }
         public Nullable<int> maxReservationPerUser { get; set; }
-    
+
         public virtual ICollection<LaundryUser> LaundryUsers { get; set; }
         public virtual ICollection<Machine> Machines { get; set; }
         public virtual ICollection<WashTime> WashTimes { get; set; }
@@ -46,39 +46,59 @@ namespace UserLaundry
             List<Machine> machines = new List<Machine>();
             foreach (var m in Machines)
             {
-                if (m.Reservations.Count == 0)
+                if (!m.broken.GetValueOrDefault())
                 {
-                    if (!machines.Contains(m))
-                        machines.Add(m);
-                }
-                else
-                {
-                    foreach (var res in m.Reservations)
+                    if (m.Reservations.Count == 0)
                     {
-                        if (res.reservationDate != reservation.reservationDate &&
-                            res.WashTime1 == reservation.WashTime1)
+                        if (!machines.Contains(m))
+                            machines.Add(m);
+                    }
+                    else
+                    {
+                        foreach (var res in m.Reservations)
                         {
-                            if (!machines.Contains(m))
-                                machines.Add(m);
-                        }
-                        else if (res.reservationDate == reservation.reservationDate &&
-                          res.WashTime1 != reservation.WashTime1)
-                        {
-                            if (!machines.Contains(m))
-                                machines.Add(m);
-                        }
-                        else if (res.reservationDate != reservation.reservationDate &&
-                                 res.WashTime1 != reservation.WashTime1)
-                        {
-                            if (!machines.Contains(m))
-                                machines.Add(m);
-                        }
+                            if (!res.reservationUsed.GetValueOrDefault())
+                            {
+                                if (res.reservationDate != reservation.reservationDate &&
+                                    res.WashTime == reservation.WashTime)
+                                {
+                                    if (!machines.Contains(m))
+                                        machines.Add(m);
+                                }
+                                else if (res.reservationDate == reservation.reservationDate &&
+                                         res.WashTime != reservation.WashTime)
+                                {
+                                    if (!machines.Contains(m))
+                                        machines.Add(m);
+                                }
+                                else if (res.reservationDate != reservation.reservationDate &&
+                                         res.WashTime != reservation.WashTime)
+                                {
+                                    if (!machines.Contains(m))
+                                        machines.Add(m);
+                                }
+                                else if (res.reservationDate == reservation.reservationDate &&
+                                         res.WashTime == reservation.WashTime)
+                                {
+                                    if (machines.Contains(m))
+                                    {
+                                        machines.Remove(m);
+                                    }
+                                }
 
+                            }
+                        }
                     }
                 }
             }
 
             return machines;
+        }
+
+
+        public override string ToString()
+        {
+            return name;
         }
     }
 }

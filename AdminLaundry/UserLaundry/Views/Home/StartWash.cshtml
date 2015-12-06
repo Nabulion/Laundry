@@ -12,16 +12,29 @@
     <title>StartWash</title>
 </head>
 <body>
-<div>
-    @foreach (var m in Model.GetNonStartedMachines())
-    {
-        @m.machineType
-        foreach (var program in m.MachinePrograms)
+    <div>
+        @foreach (var m in Model.Machines)
         {
-                @Html.ActionLink(program.ToString(), "Start", new { id = Model.id, programid = program.id }) <br />
+            if (!m.start.GetValueOrDefault())
+            {
+                @m.machineType
+                foreach (var program in m.MachinePrograms)
+                {
+                    @Html.ActionLink(program.ToString(), "Start", new { id = Model.id, programid = program.id })
+                    <br />
+                }
+            }
+            else
+            {
+                if (@Model.StartedWashCosts.LastOrDefault() != null)
+                {
+                    @m.machineType
+                    <div> has started and will be finished in @Model.StartedWashCosts.LastOrDefault().MachineProgram1.programTime mins</div>
+                    <br />
+                }
+            }
         }
-    }
-    @Html.ActionLink("Back", "Back", new { resid = Model.id })
-</div>
+        @Html.ActionLink("Back", "Back", new { resid = Model.id, userid = Model.LaundryUser1.name })
+    </div>
 </body>
 </html>

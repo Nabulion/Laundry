@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UserLaundry
+namespace Opgave7DatabaseDel
 {
     using System;
     using System.Collections.Generic;
@@ -27,10 +27,5 @@ namespace UserLaundry
     
         public virtual Machine Machine1 { get; set; }
         public virtual ICollection<StartedWashCost> StartedWashCosts { get; set; }
-
-        public override string ToString()
-        {
-            return programType + " price " + price + " duration " + programTime + " minutes";
-        }
     }
 }

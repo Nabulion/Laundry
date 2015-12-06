@@ -37,12 +37,17 @@ namespace UserLaundry
 
             foreach (var machine in Machines)
             {
-                if (machine.start.GetValueOrDefault() == false)
+                if (!machine.start.GetValueOrDefault())
                 {
                     list.Add(machine);
                 }
             }
             return list;
+        }
+
+        public override string ToString()
+        {
+            return id + " Date " + (reservationDate) + WashTime1;
         }
     }
 }

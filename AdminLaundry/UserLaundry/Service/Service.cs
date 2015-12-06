@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Transactions;
 using System.Web;
 
 namespace UserLaundry.Service
@@ -14,11 +15,6 @@ namespace UserLaundry.Service
         public static LaundryUser FindLaundryUser(String name)
         {
             return Dao.Dao.FindLaundryUser(name);
-        }
-
-        public static List<Machine> FindMachinesAvailable(LaundryRoom laundryRoom, Reservation reservation)
-        {
-            return Dao.Dao.FindMachinesAvailable(laundryRoom, reservation);
         }
 
         public static WashTime FindWashTime(int id)
@@ -39,14 +35,17 @@ namespace UserLaundry.Service
 
         public static void AddWashTimeReservation(Reservation reservation, WashTime washTime)
         {
-            reservation.WashTime1 = washTime;
-            Db.SaveChanges();
+                reservation.WashTime1 = washTime;
+                Db.SaveChanges();
         }
+
+
+
 
         public static void AddMachineReservation(Reservation reservation, Machine machine)
         {
-            reservation.Machines.Add(machine);
-            Db.SaveChanges();
+                reservation.Machines.Add(machine);
+                Db.SaveChanges();
         }
 
         public static DateTime ValidateDate(String date)
@@ -58,7 +57,7 @@ namespace UserLaundry.Service
             }
             catch
             {
-                
+
                 throw new Exception("Incorrect date format should be like day/month/year");
             }
             if (dateTime >= DateTime.Today.AddDays(7) || dateTime < DateTime.Today)
@@ -116,6 +115,11 @@ namespace UserLaundry.Service
                     Db.Reservations.Remove(reservation);
                 }
             }
+        }
+
+        public static void RemoveResFromMachinePastDate(int min)
+        {
+            Dao.Dao.RemoveResFromMachinePastDate(min);
         }
     }
 }

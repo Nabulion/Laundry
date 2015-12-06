@@ -30,7 +30,7 @@ namespace UserLaundry
             List<Reservation> list = new List<Reservation>();
             foreach (var r in Reservations)
             {
-                if (r.reservationUsed.GetValueOrDefault() == false)
+                if (!r.reservationUsed.GetValueOrDefault())
                 {
                     list.Add(r);
                 }
@@ -47,7 +47,7 @@ namespace UserLaundry
                 {
                     foreach (var cost in res.StartedWashCosts)
                     {
-                        if (cost.payed.GetValueOrDefault() == true)
+                        if (cost.payed.GetValueOrDefault())
                         {
                             total += cost.MachineProgram1.price.GetValueOrDefault();
                         }
@@ -66,7 +66,7 @@ namespace UserLaundry
                 {
                     foreach (var cost in res.StartedWashCosts)
                     {
-                        if (cost.payed.GetValueOrDefault() == false)
+                        if (!cost.payed.GetValueOrDefault())
                         {
                             total += cost.MachineProgram1.price.GetValueOrDefault();
                         }
@@ -74,6 +74,24 @@ namespace UserLaundry
                 }
             }
             return total;
+        }
+
+        public override string ToString()
+        {
+            return name;
+        }
+
+        public List<Reservation> GetUsedReservations()
+        {
+            List<Reservation> list = new List<Reservation>();
+            foreach (var r in Reservations)
+            {
+                if (r.reservationUsed.GetValueOrDefault())
+                {
+                    list.Add(r);
+                }
+            }
+            return list;
         }
     }
 }

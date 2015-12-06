@@ -7,40 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace UserLaundry
+namespace Opgave7DatabaseDel
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class WashTime
+    public partial class Machine
     {
-        public WashTime()
+        public Machine()
         {
+            this.MachinePrograms = new HashSet<MachineProgram>();
             this.Reservations = new HashSet<Reservation>();
         }
     
         public int id { get; set; }
-        public Nullable<System.TimeSpan> fromTime { get; set; }
-        public Nullable<System.TimeSpan> toTime { get; set; }
+        public string machineType { get; set; }
+        public Nullable<int> timesUsed { get; set; }
         public string LaundryRoom { get; set; }
+        public Nullable<bool> broken { get; set; }
+        public Nullable<bool> start { get; set; }
     
         public virtual LaundryRoom LaundryRoom1 { get; set; }
+        public virtual ICollection<MachineProgram> MachinePrograms { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
-
-        public override string ToString()
-        {
-            return fromTime +"-"+toTime;
-        }
-
-        public bool checkWashTime(Reservation r)
-        {
-            bool resAfterTime = false;
-            if (DateTime.Today == r.reservationDate)
-            {
-                resAfterTime = (DateTime.Today + fromTime) <
-                               (r.reservationDate.GetValueOrDefault().AddHours(DateTime.Now.Hour));
-            }
-            return resAfterTime;
-        }
     }
 }

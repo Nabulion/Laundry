@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminLaundry
+namespace Opgave7DatabaseDel
 {
     using System;
     using System.Collections.Generic;
@@ -27,10 +27,5 @@ namespace AdminLaundry
         public virtual ICollection<LaundryUser> LaundryUsers { get; set; }
         public virtual ICollection<Machine> Machines { get; set; }
         public virtual ICollection<WashTime> WashTimes { get; set; }
-
-        public override string ToString()
-        {
-            return name;
-        }
     }
 }

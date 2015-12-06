@@ -25,46 +25,6 @@ namespace UserLaundry.Dao
             return GetDbEntities().LaundryUsers.Find(name);
         }
 
-        public static List<Machine> FindMachinesAvailable(LaundryRoom laundryRoom, Reservation reservation)
-        {
-            List<Machine> machines = new List<Machine>();
-            foreach (var m in laundryRoom.Machines)
-            {
-                if (m.Reservations.Count == 0)
-                {
-                    if (!machines.Contains(m))
-                    machines.Add(m);
-                }
-                else
-                {
-                    foreach (var res in m.Reservations)
-                    {
-                        if (res.reservationDate != reservation.reservationDate &&
-                            res.WashTime1 == reservation.WashTime1)
-                        {
-                            if(!machines.Contains(m))
-                            machines.Add(m);
-                        }
-                        else if (res.reservationDate == reservation.reservationDate &&
-                          res.WashTime1 != reservation.WashTime1)
-                        {
-                            if (!machines.Contains(m))
-                            machines.Add(m);
-                        }
-                        else if (res.reservationDate != reservation.reservationDate &&
-                                 res.WashTime1 != reservation.WashTime1)
-                        {
-                            if (!machines.Contains(m))
-                            machines.Add(m);
-                        }
-
-                    }
-                }
-            }
-
-            return machines;
-        }
-
         public static WashTime FindWashTime(int id)
         {
             return _db.WashTimes.Find(id);
@@ -84,5 +44,26 @@ namespace UserLaundry.Dao
         {
             return _db.MachinePrograms.Find(programid);
         }
+
+        public static void RemoveResFromMachinePastDate(int min)
+        {
+            foreach (var machine in _db.Machines)
+            {
+                for (int i = 0; i < machine.Reservations.Count; i++)
+                {
+                    if (!machine.Reservations.ToList()[i].reservationUsed.GetValueOrDefault())
+                    {
+                        DateTime expireDate = machine.Reservations.ToList()[i].reservationDate.GetValueOrDefault() 
+                                            + machine.Reservations.ToList()[i].WashTime1.fromTime.GetValueOrDefault();
+                        if (DateTime.Now > expireDate.AddMinutes(min))
+                        {
+                            machine.Reservations.Remove(machine.Reservations.ToList()[i]);
+                        }
+                    }
+                }
+            }
+            _db.SaveChanges();
+        }
+
     }
 }
