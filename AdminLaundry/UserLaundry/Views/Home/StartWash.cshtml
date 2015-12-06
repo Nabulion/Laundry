@@ -15,25 +15,38 @@
     <div>
         @foreach (var m in Model.Machines)
         {
-            if (!m.start.GetValueOrDefault())
+            @m.machineType
+
+            foreach (var program in m.MachinePrograms)
             {
-                @m.machineType
-                foreach (var program in m.MachinePrograms)
+               
+                if (!@m.start.GetValueOrDefault())
                 {
-                    @Html.ActionLink(program.ToString(), "Start", new { id = Model.id, programid = program.id })
-                    <br />
+                    if (@Model.findStartedWash(program) == null) { 
+                    @Html.ActionLink(program.ToString(), "Start", new {resid = Model.id, programid = program.id})
+                        <br/>
+                    }
                 }
-            }
-            else
-            {
-                if (@Model.StartedWashCosts.LastOrDefault() != null)
+                else if (@Model.findStartedWash(program) != null)
                 {
-                    @m.machineType
-                    <div> has started and will be finished in @Model.StartedWashCosts.LastOrDefault().MachineProgram1.programTime mins</div>
-                    <br />
+                    if (@Model.findStartedWash(program).MachineProgram1.TimeLeft(@Model) == 0)
+                    {
+                        @Html.ActionLink("Take cloth out", "TakeClothOut", new { machine = m.id, resid = Model.id })
+                        <br />
+                    }
+                    else
+                    {
+                        <div>Wash is done in </div>@Model.findStartedWash(program).MachineProgram1.TimeLeft(@Model) <div> mins </div> <br/>
+                        @Html.ActionLink("Emergency stop", "TakeClothOut", new { machine = m.id, resid = Model.id })
+                    }
                 }
             }
         }
+            
+        
+  
+
+        
         @Html.ActionLink("Back", "Back", new { resid = Model.id, userid = Model.LaundryUser1.name })
     </div>
 </body>

@@ -12,29 +12,25 @@
     <title>AllReservations</title>
 </head>
 <body>
-<div>
-    @if (Model.GetNonUsedReservations().Count == 0)
-    {
-        <div>You do not have any unfinnished reservations currently</div>
-        foreach (var res in Model.GetUsedReservations())
-        {
-            @Html.ActionLink(@res.ToString(), "StartWash", new { id = res.id })
-        }
-    }
-    else
-    {
-        foreach (var res in Model.Reservations)
-        {
-            if (res.Machines.Count != 0)
-            {
-                @Html.ActionLink(@res.ToString(), "StartWash", new {id = res.id})
-                <br/>
-            }
-        }
-    }
+    <div>
 
-    @Html.ActionLink("Back", "PickDate", new { userid = Model.name })
+        <div>Reservations started</div>
+        @foreach (var res in Model.GetUsedReservations())
+        {
+            @Html.ActionLink("Check if done " + @res.ToString(), "StartWash", new { resid = res.id }) <br />
+        }
 
-</div>
+
+        <div>Reservations not started</div>
+        @foreach (var res in Model.GetNonUsedReservations())
+        {
+            @Html.ActionLink(@res.ToString(), "StartWash", new { resid = res.id })
+            <br />
+        }
+
+
+        @Html.ActionLink("Back", "PickDate", new { userid = Model.name })
+
+    </div>
 </body>
 </html>

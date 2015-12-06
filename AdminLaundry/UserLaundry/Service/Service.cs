@@ -85,8 +85,8 @@ namespace UserLaundry.Service
         public static StartedWashCost CreateStartedWashCost(Reservation reservation, MachineProgram machineProgram)
         {
             StartedWashCost cost = new StartedWashCost();
-            cost.Reservation1 = reservation;
             cost.MachineProgram1 = machineProgram;
+            reservation.StartedWashCosts.Add(cost);
             Db.StartedWashCosts.Add(cost);
             Db.SaveChanges();
             return cost;
@@ -120,6 +120,12 @@ namespace UserLaundry.Service
         public static void RemoveResFromMachinePastDate(int min)
         {
             Dao.Dao.RemoveResFromMachinePastDate(min);
+        }
+
+        public static void MachineFinished(Machine m)
+        {
+            m.start = false;
+            Db.SaveChanges();
         }
     }
 }

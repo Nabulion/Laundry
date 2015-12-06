@@ -57,8 +57,7 @@ namespace UserLaundry
                     {
                         foreach (var res in m.Reservations)
                         {
-                            if (!res.reservationUsed.GetValueOrDefault())
-                            {
+                          
                                 if (res.reservationDate != reservation.reservationDate &&
                                     res.WashTime == reservation.WashTime)
                                 {
@@ -86,7 +85,7 @@ namespace UserLaundry
                                     }
                                 }
 
-                            }
+                            
                         }
                     }
                 }

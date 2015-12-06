@@ -45,6 +45,26 @@ namespace UserLaundry
             return list;
         }
 
+        public StartedWashCost findStartedWash(MachineProgram p)
+        {
+            StartedWashCost startedWashCost = null;
+            foreach (var started in StartedWashCosts)
+            {
+                if (started.MachineProgram1.Equals(p))
+                {
+                    startedWashCost = started;
+                }
+            }
+            return startedWashCost;
+        }
+
+        public bool checkDate(int minBeforeToLate)
+        {
+            DateTime resDateTime = reservationDate.GetValueOrDefault();
+
+            return (reservationDate == (DateTime.Today) || resDateTime.AddMinutes(minBeforeToLate)+WashTime1.fromTime <= DateTime.Now);
+        }
+
         public override string ToString()
         {
             return id + " Date " + (reservationDate) + WashTime1;

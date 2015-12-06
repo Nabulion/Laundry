@@ -150,23 +150,23 @@ namespace UserLaundry.Controllers
             return View(laundryUser);
         }
 
-        public ActionResult StartWash(int id)
+        public ActionResult StartWash(int resid)
         {
-            Reservation r = Service.Service.FindReservation(id);
+            Reservation r = Service.Service.FindReservation(resid);
             return View(r);
         }
 
-        public ActionResult Start(int id, int programid)
+        public ActionResult Start(int resid, int programid)
         {
 
-            Reservation r = Service.Service.FindReservation(id);
+            Reservation r = Service.Service.FindReservation(resid);
             MachineProgram program = Service.Service.FindProgram(programid);
             Service.Service.StartWash(r, program.Machine1);
             Service.Service.CreateStartedWashCost(r, program);
 
 
 
-            return RedirectToAction("StartWash", new { id = r.id });
+            return RedirectToAction("StartWash", new { resid = r.id });
         }
 
         public ActionResult LaundryUserOverview(String userid)
@@ -180,7 +180,14 @@ namespace UserLaundry.Controllers
             Reservation r = Service.Service.FindReservation(resid);
             Service.Service.DeleteResWithNulls(r);
 
-            return RedirectToAction("PickDate", new { userid = userid });
+            return RedirectToAction("PickDate", new { userid });
+        }
+
+        public ActionResult TakeClothOut(int machine, int resid)
+        {
+            Machine m = Service.Service.FindMachine(machine);
+            Service.Service.MachineFinished(m);
+            return RedirectToAction("StartWash", new {resid});
         }
     }
 }
