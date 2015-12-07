@@ -15,15 +15,16 @@
     <div>
         @foreach (var m in Model.Machines)
         {
-            @m.machineType
+            @m.machineType <br/>
 
             foreach (var program in m.MachinePrograms)
             {
                
                 if (!@m.start.GetValueOrDefault())
                 {
-                    if (@Model.findStartedWash(program) == null) { 
-                    @Html.ActionLink(program.ToString(), "Start", new {resid = Model.id, programid = program.id})
+                    if (!@Model.checkMachine(m))
+                    {
+                        @Html.ActionLink(program.ToString(), "Start", new {resid = Model.id, programid = program.id})
                         <br/>
                     }
                 }
@@ -36,8 +37,9 @@
                     }
                     else
                     {
-                        <div>Wash is done in </div>@Model.findStartedWash(program).MachineProgram1.TimeLeft(@Model) <div> mins </div> <br/>
+                        <div>Wash is done in @Model.findStartedWash(program).MachineProgram1.TimeLeft(@Model) mins </div>
                         @Html.ActionLink("Emergency stop", "TakeClothOut", new { machine = m.id, resid = Model.id })
+                        <br />
                     }
                 }
             }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LaundryDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LaundryDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="LaundryRoom">
           <Key>
             <PropertyRef Name="name" />
@@ -57,6 +57,7 @@
           <Property Name="reservationDate" Type="datetime" />
           <Property Name="WashTime" Type="int" />
           <Property Name="reservationUsed" Type="bit" />
+          <Property Name="inactive" Type="bit" />
         </EntityType>
         <EntityType Name="StartedWashCost">
           <Key>
@@ -112,7 +113,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ManyToMan__Machi__286302EC">
+        <Association Name="FK__ManyToMan__Machi__29572725">
           <End Role="Machine" Type="Self.Machine" Multiplicity="1" />
           <End Role="ManyToMany" Type="Self.ManyToMany" Multiplicity="*" />
           <ReferentialConstraint>
@@ -124,7 +125,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ManyToMan__Reser__29572725">
+        <Association Name="FK__ManyToMan__Reser__2A4B4B5E">
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="1" />
           <End Role="ManyToMany" Type="Self.ManyToMany" Multiplicity="*" />
           <ReferentialConstraint>
@@ -160,7 +161,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StartedWa__Machi__22AA2996">
+        <Association Name="FK__StartedWa__Machi__239E4DCF">
           <End Role="MachineProgram" Type="Self.MachineProgram" Multiplicity="0..1" />
           <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
           <ReferentialConstraint>
@@ -172,7 +173,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__StartedWa__Reser__21B6055D">
+        <Association Name="FK__StartedWa__Reser__22AA2996">
           <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
           <End Role="StartedWashCost" Type="Self.StartedWashCost" Multiplicity="*" />
           <ReferentialConstraint>
@@ -217,11 +218,11 @@
             <End Role="Machine" EntitySet="Machine" />
             <End Role="MachineProgram" EntitySet="MachineProgram" />
           </AssociationSet>
-          <AssociationSet Name="FK__ManyToMan__Machi__286302EC" Association="Self.FK__ManyToMan__Machi__286302EC">
+          <AssociationSet Name="FK__ManyToMan__Machi__29572725" Association="Self.FK__ManyToMan__Machi__29572725">
             <End Role="Machine" EntitySet="Machine" />
             <End Role="ManyToMany" EntitySet="ManyToMany" />
           </AssociationSet>
-          <AssociationSet Name="FK__ManyToMan__Reser__29572725" Association="Self.FK__ManyToMan__Reser__29572725">
+          <AssociationSet Name="FK__ManyToMan__Reser__2A4B4B5E" Association="Self.FK__ManyToMan__Reser__2A4B4B5E">
             <End Role="Reservation" EntitySet="Reservation" />
             <End Role="ManyToMany" EntitySet="ManyToMany" />
           </AssociationSet>
@@ -233,11 +234,11 @@
             <End Role="WashTime" EntitySet="WashTime" />
             <End Role="Reservation" EntitySet="Reservation" />
           </AssociationSet>
-          <AssociationSet Name="FK__StartedWa__Machi__22AA2996" Association="Self.FK__StartedWa__Machi__22AA2996">
+          <AssociationSet Name="FK__StartedWa__Machi__239E4DCF" Association="Self.FK__StartedWa__Machi__239E4DCF">
             <End Role="MachineProgram" EntitySet="MachineProgram" />
             <End Role="StartedWashCost" EntitySet="StartedWashCost" />
           </AssociationSet>
-          <AssociationSet Name="FK__StartedWa__Reser__21B6055D" Association="Self.FK__StartedWa__Reser__21B6055D">
+          <AssociationSet Name="FK__StartedWa__Reser__22AA2996" Association="Self.FK__StartedWa__Reser__22AA2996">
             <End Role="Reservation" EntitySet="Reservation" />
             <End Role="StartedWashCost" EntitySet="StartedWashCost" />
           </AssociationSet>
@@ -246,8 +247,7 @@
             <End Role="WashTime" EntitySet="WashTime" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LaundryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -309,6 +309,7 @@
           <NavigationProperty Name="WashTime1" Relationship="Self.FK__Reservati__WashT__1BFD2C07" FromRole="Reservation" ToRole="WashTime" />
           <NavigationProperty Name="StartedWashCosts" Relationship="Self.FK__StartedWa__Reser__21B6055D" FromRole="Reservation" ToRole="StartedWashCost" />
           <NavigationProperty Name="Machines" Relationship="Self.ManyToMany" FromRole="Reservation" ToRole="Machine" />
+          <Property Name="inactive" Type="Boolean" />
         </EntityType>
         <EntityType Name="StartedWashCost">
           <Key>
@@ -525,6 +526,7 @@
           <EntitySetMapping Name="Reservations">
             <EntityTypeMapping TypeName="LaundryDBModel.Reservation">
               <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="inactive" ColumnName="inactive" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="LaundryUser" ColumnName="LaundryUser" />
                 <ScalarProperty Name="reservationDate" ColumnName="reservationDate" />

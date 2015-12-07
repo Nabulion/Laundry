@@ -25,6 +25,7 @@ namespace Opgave7DatabaseDel
         public Nullable<System.DateTime> reservationDate { get; set; }
         public Nullable<int> WashTime { get; set; }
         public Nullable<bool> reservationUsed { get; set; }
+        public Nullable<bool> inactive { get; set; }
     
         public virtual LaundryUser LaundryUser1 { get; set; }
         public virtual WashTime WashTime1 { get; set; }

@@ -7,6 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Linq;
+using UserLaundry;
+
 namespace UserLaundry
 {
     using System;
@@ -28,12 +32,13 @@ namespace UserLaundry
         public virtual ICollection<Machine> Machines { get; set; }
         public virtual ICollection<WashTime> WashTimes { get; set; }
 
+
         public List<Machine> GetMachinesInUse()
         {
             List<Machine> list = new List<Machine>();
             foreach (var machine in Machines)
             {
-                if (machine.start.GetValueOrDefault() == true)
+                if (machine.start.GetValueOrDefault())
                 {
                     list.Add(machine);
                 }
@@ -43,57 +48,39 @@ namespace UserLaundry
 
         public List<Machine> FindMachinesAvailable(Reservation reservation)
         {
-            List<Machine> machines = new List<Machine>();
+            List<Machine> machines = Machines.ToList();
+            if (!maxAmountOffRes()) {
             foreach (var m in Machines)
             {
                 if (!m.broken.GetValueOrDefault())
                 {
-                    if (m.Reservations.Count == 0)
+                    foreach (var res in m.Reservations)
                     {
-                        if (!machines.Contains(m))
-                            machines.Add(m);
-                    }
-                    else
-                    {
-                        foreach (var res in m.Reservations)
-                        {
-                          
-                                if (res.reservationDate != reservation.reservationDate &&
-                                    res.WashTime == reservation.WashTime)
-                                {
-                                    if (!machines.Contains(m))
-                                        machines.Add(m);
-                                }
-                                else if (res.reservationDate == reservation.reservationDate &&
-                                         res.WashTime != reservation.WashTime)
-                                {
-                                    if (!machines.Contains(m))
-                                        machines.Add(m);
-                                }
-                                else if (res.reservationDate != reservation.reservationDate &&
-                                         res.WashTime != reservation.WashTime)
-                                {
-                                    if (!machines.Contains(m))
-                                        machines.Add(m);
-                                }
-                                else if (res.reservationDate == reservation.reservationDate &&
-                                         res.WashTime == reservation.WashTime)
-                                {
-                                    if (machines.Contains(m))
-                                    {
-                                        machines.Remove(m);
-                                    }
-                                }
 
-                            
+                        if (res.reservationDate == reservation.reservationDate &&
+                            res.WashTime == reservation.WashTime && !res.inactive.GetValueOrDefault())
+                        {
+                            if (machines.Contains(m))
+                            {
+                                machines.Remove(m);
+                            }
                         }
+
+
                     }
                 }
+            }
             }
 
             return machines;
         }
 
+        public bool maxAmountOffRes()
+        {
+            bool max = false;
+
+            return max;
+        }
 
         public override string ToString()
         {
@@ -101,3 +88,4 @@ namespace UserLaundry
         }
     }
 }
+

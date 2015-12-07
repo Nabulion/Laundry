@@ -15,14 +15,14 @@
     <div>
 
         <div>Reservations started</div>
-        @foreach (var res in Model.GetUsedReservations())
+        @foreach (var res in Model.GetTodaysUsedRes())
         {
             @Html.ActionLink("Check if done " + @res.ToString(), "StartWash", new { resid = res.id }) <br />
         }
 
 
         <div>Reservations not started</div>
-        @foreach (var res in Model.GetNonUsedReservations())
+        @foreach (var res in Model.GetTodaysRes())
         {
             @Html.ActionLink(@res.ToString(), "StartWash", new { resid = res.id })
             <br />

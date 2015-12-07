@@ -35,12 +35,23 @@ namespace UserLaundry
 
         public int TimeLeft(Reservation resdate)
         {
-            //TODO DOESNT WORK
-            TimeSpan time = resdate.WashTime1.fromTime.GetValueOrDefault();
-            DateTime resDateTime = resdate.reservationDate.GetValueOrDefault().AddMinutes(this.programTime.GetValueOrDefault()) + time;
-            int resDate = (resDateTime.Day * 24 *60) +(resDateTime.Hour*60)+(resDateTime.Minute);
-            int timesLeft = resDate - (DateTime.Now.Day * 24 * 60) + (DateTime.Now.Hour * 60) + (DateTime.Now.Minute);
-            return timesLeft;
+            int timeLeft = 0;
+
+            if (
+                resdate.reservationDate.GetValueOrDefault()
+                    .AddMinutes(this.programTime.GetValueOrDefault())
+                    .Subtract(DateTime.Now)
+                    .Minutes > 0)
+            {
+                timeLeft = resdate.reservationDate.GetValueOrDefault().AddMinutes(this.programTime.GetValueOrDefault()).Subtract(DateTime.Now).Minutes;
+            }
+            else
+            {
+                timeLeft = 0;
+            }
+
+            return timeLeft;
         }
+
     }
 }

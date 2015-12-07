@@ -78,12 +78,12 @@ namespace Opgave7DatabaseDel.BackEnd
             r1.Machines.Add(machine2);
 
             Reservation r2 = new Reservation();
-            r2.reservationDate = new DateTime(2015, 12, 04);
+            r2.reservationDate = new DateTime(2016, 12, 04);
             r2.LaundryUser1 = LaundryUser;
             r2.Machines.Add(machine1);
 
             Reservation r3 = new Reservation();
-            r3.reservationDate = new DateTime(2015, 12, 03);
+            r3.reservationDate = new DateTime(2016, 12, 03);
             r3.LaundryUser1 = LaundryUser;
             r3.Machines.Add(machine1);
             r3.Machines.Add(machine3);

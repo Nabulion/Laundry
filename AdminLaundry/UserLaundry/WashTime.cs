@@ -29,7 +29,7 @@ namespace UserLaundry
 
         public override string ToString()
         {
-            return fromTime +"-"+toTime;
+            return fromTime + "-" + toTime;
         }
 
         public bool checkWashTime(Reservation r)

@@ -25,18 +25,6 @@ namespace UserLaundry
         public virtual LaundryRoom LaundryRoom1 { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
 
-        public List<Reservation> GetNonUsedReservations()
-        {
-            List<Reservation> list = new List<Reservation>();
-            foreach (var r in Reservations)
-            {
-                if (!r.reservationUsed.GetValueOrDefault())
-                {
-                    list.Add(r);
-                }
-            }
-            return list;
-        }
 
         public decimal PaidWashes()
         {
@@ -81,14 +69,40 @@ namespace UserLaundry
             return name;
         }
 
-        public List<Reservation> GetUsedReservations()
+        public List<Reservation> GetFutureRes()
         {
             List<Reservation> list = new List<Reservation>();
-            foreach (var r in Reservations)
+            foreach (Reservation res in Reservations)
             {
-                if (r.reservationUsed.GetValueOrDefault())
+                if (res.reservationDate.GetValueOrDefault().Date > DateTime.Today)
                 {
-                    list.Add(r);
+                    list.Add(res);
+                }
+            }
+            return list;
+        }
+
+        public List<Reservation> GetTodaysRes()
+        {
+            List<Reservation> list = new List<Reservation>();
+            foreach (Reservation res in Reservations)
+            {
+                if (res.reservationDate.GetValueOrDefault().Date == DateTime.Today && !res.reservationUsed.GetValueOrDefault())
+                {
+                    list.Add(res);
+                }
+            }
+            return list;
+        }
+
+        public List<Reservation> GetTodaysUsedRes()
+        {
+            List<Reservation> list = new List<Reservation>();
+            foreach (Reservation res in Reservations)
+            {
+                if (res.reservationDate.GetValueOrDefault().Date == DateTime.Today && res.reservationUsed.GetValueOrDefault())
+                {
+                    list.Add(res);
                 }
             }
             return list;

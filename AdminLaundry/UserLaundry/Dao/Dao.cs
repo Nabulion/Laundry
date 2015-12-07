@@ -57,7 +57,7 @@ namespace UserLaundry.Dao
                                             + machine.Reservations.ToList()[i].WashTime1.fromTime.GetValueOrDefault();
                         if (DateTime.Now > expireDate.AddMinutes(min))
                         {
-                            machine.Reservations.Remove(machine.Reservations.ToList()[i]);
+                            machine.Reservations.ToList()[i].inactive = true;
                         }
                     }
                 }

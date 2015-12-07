@@ -25,6 +25,7 @@ namespace UserLaundry
         public Nullable<System.DateTime> reservationDate { get; set; }
         public Nullable<int> WashTime { get; set; }
         public Nullable<bool> reservationUsed { get; set; }
+        public Nullable<bool> inactive { get; set; }
     
         public virtual LaundryUser LaundryUser1 { get; set; }
         public virtual WashTime WashTime1 { get; set; }
@@ -62,7 +63,20 @@ namespace UserLaundry
         {
             DateTime resDateTime = reservationDate.GetValueOrDefault();
 
-            return (reservationDate == (DateTime.Today) || resDateTime.AddMinutes(minBeforeToLate)+WashTime1.fromTime <= DateTime.Now);
+            return (reservationDate == (DateTime.Today) || resDateTime.AddMinutes(minBeforeToLate) + WashTime1.fromTime <= DateTime.Now);
+        }
+
+        public bool checkMachine(Machine m)
+        {
+            bool machineFound = false;
+            foreach (var start in StartedWashCosts)
+            {
+                if (start.MachineProgram1.Machine == m.id)
+                {
+                    machineFound = true;
+                }
+            }
+            return machineFound;
         }
 
         public override string ToString()

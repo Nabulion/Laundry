@@ -19,16 +19,30 @@
 
         Unpaid washes amount: @Model.UnPaidWashes() <br/>
 
-        Future reservations: <br />
-        @if (Model.Reservations.Count == 0)
+        Todays reservations: <br />
+        @if (Model.GetTodaysRes().Count == 0)
         {
-            <div>There is no current reservations</div> <br/>
+            <div>There is no reservations today</div> <br />
         }
         else
         {
-            foreach (var res in Model.GetNonUsedReservations())
+            foreach (var res in Model.GetTodaysRes())
             {
-                @res <br />
+                @Html.ActionLink(@res.ToString(), "StartWash", new { resid = res.id })
+                <br />
+            }
+        }
+
+        Future reservations: <br />
+        @if (Model.GetFutureRes().Count == 0)
+        {
+            <div>There is no future reservations</div> <br/>
+        }
+        else
+        {
+            foreach (var res in Model.GetFutureRes())
+            {
+                @res <div> can not be started before @res.reservationDate.GetValueOrDefault().Date</div><br />
             }
         }
 

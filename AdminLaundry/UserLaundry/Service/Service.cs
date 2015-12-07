@@ -79,6 +79,7 @@ namespace UserLaundry.Service
         {
             r.reservationUsed = true;
             m.start = true;
+            r.reservationDate = DateTime.Now;
             Db.SaveChanges();
         }
 
@@ -113,6 +114,7 @@ namespace UserLaundry.Service
                 if (reservation.WashTime1 == null || reservation.Machines.Count == 0)
                 {
                     Db.Reservations.Remove(reservation);
+                    Db.SaveChanges();
                 }
             }
         }
