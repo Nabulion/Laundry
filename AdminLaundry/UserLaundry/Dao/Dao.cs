@@ -45,7 +45,7 @@ namespace UserLaundry.Dao
             return _db.MachinePrograms.Find(programid);
         }
 
-        public static void RemoveResFromMachinePastDate(int min)
+        public static void SetInactiveResFromMachinePastDate(int min)
         {
             foreach (var machine in _db.Machines)
             {

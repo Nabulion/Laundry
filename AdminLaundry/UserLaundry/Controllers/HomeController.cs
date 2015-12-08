@@ -15,7 +15,7 @@ namespace UserLaundry.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            Service.Service.RemoveResFromMachinePastDate(MinPastResTime);
+            Service.Service.SetInactiveResFromMachinePastDate(MinPastResTime);
             return View();
         }
 
@@ -146,7 +146,7 @@ namespace UserLaundry.Controllers
         public ActionResult AllReservations(String userid)
         {
             LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
-            Service.Service.RemoveResFromMachinePastDate(MinPastResTime);
+            Service.Service.SetInactiveResFromMachinePastDate(MinPastResTime);
             return View(laundryUser);
         }
 

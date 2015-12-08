@@ -119,9 +119,9 @@ namespace UserLaundry.Service
             }
         }
 
-        public static void RemoveResFromMachinePastDate(int min)
+        public static void SetInactiveResFromMachinePastDate(int min)
         {
-            Dao.Dao.RemoveResFromMachinePastDate(min);
+            Dao.Dao.SetInactiveResFromMachinePastDate(min);
         }
 
         public static void MachineFinished(Machine m)
