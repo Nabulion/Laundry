@@ -49,7 +49,7 @@ namespace UserLaundry
         public List<Machine> FindMachinesAvailable(Reservation reservation)
         {
             List<Machine> machines = Machines.ToList();
-            if (!maxAmountOffRes()) {
+            
             foreach (var m in Machines)
             {
                 if (!m.broken.GetValueOrDefault())
@@ -57,8 +57,8 @@ namespace UserLaundry
                     foreach (var res in m.Reservations)
                     {
 
-                        if (res.reservationDate == reservation.reservationDate &&
-                            res.WashTime == reservation.WashTime && !res.inactive.GetValueOrDefault())
+                        if ((res.reservationDate == reservation.reservationDate &&
+                            res.WashTime == reservation.WashTime && !res.inactive.GetValueOrDefault()) || checkIfMaxRes())
                         {
                             if (machines.Contains(m))
                             {
@@ -70,16 +70,25 @@ namespace UserLaundry
                     }
                 }
             }
-            }
+            
 
             return machines;
         }
 
-        public bool maxAmountOffRes()
+        public bool checkIfMaxRes()
         {
-            bool max = false;
-
-            return max;
+            int count = 0;
+            foreach (var machine in Machines)
+            {
+                foreach (var res in machine.Reservations)
+                {
+                    if (!res.reservationUsed.GetValueOrDefault())
+                    {
+                        count++;
+                    }
+                }
+            }
+            return (count == maxReservationPerUser.GetValueOrDefault());
         }
 
         public override string ToString()

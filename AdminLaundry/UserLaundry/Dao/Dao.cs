@@ -49,6 +49,7 @@ namespace UserLaundry.Dao
         {
             foreach (var machine in _db.Machines)
             {
+
                 for (int i = 0; i < machine.Reservations.Count; i++)
                 {
                     if (!machine.Reservations.ToList()[i].reservationUsed.GetValueOrDefault())
