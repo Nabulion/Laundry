@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Transactions;
@@ -44,8 +45,19 @@ namespace UserLaundry.Service
 
         public static void AddMachineReservation(Reservation reservation, Machine machine)
         {
+                
+            try
+            {
                 reservation.Machines.Add(machine);
                 Db.SaveChanges();
+
+            }
+            catch (DbUpdateException e)
+            {
+                
+                Db.Entry(reservation).Reload();
+            }
+                
         }
 
         public static DateTime ValidateDate(String date)

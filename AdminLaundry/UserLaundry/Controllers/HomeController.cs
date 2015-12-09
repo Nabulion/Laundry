@@ -2,8 +2,10 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Transactions;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using UserLaundry.Models;
 
@@ -87,25 +89,12 @@ namespace UserLaundry.Controllers
 
         public ActionResult WashTimePicked(int washid, int resid)
         {
-            Reservation r;
-            TransactionOptions options =
-             new TransactionOptions
-             {
-                 IsolationLevel =
-                 IsolationLevel.Serializable,
-                 Timeout = TransactionManager.DefaultTimeout
-             };
+            Reservation r = Service.Service.FindReservation(resid);
 
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew, options))
-            {
-                WashTime washTime = Service.Service.FindWashTime(washid);
-                r = Service.Service.FindReservation(resid);
-                Service.Service.AddWashTimeReservation(r, washTime);
-                scope.Complete();
-                scope.Dispose();
+            WashTime washTime = Service.Service.FindWashTime(washid);
 
+            Service.Service.AddWashTimeReservation(r, washTime);
 
-            }
             return RedirectToAction("Reservation", new { userid = r.LaundryUser, resid = r.id });
         }
 
@@ -118,12 +107,13 @@ namespace UserLaundry.Controllers
 
             return View(w);
         }
-
+   
         public ActionResult Reserved(int resid, int machineid)
         {
-            Reservation r;
-
-            TransactionOptions options =
+            Reservation r = Service.Service.FindReservation(resid); ;
+            try
+            {
+                TransactionOptions options =
              new TransactionOptions
              {
                  IsolationLevel =
@@ -131,14 +121,31 @@ namespace UserLaundry.Controllers
                  Timeout = TransactionManager.DefaultTimeout
              };
 
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew, options))
-            {
-                r = Service.Service.FindReservation(resid);
-                Machine m = Service.Service.FindMachine(machineid);
-                Service.Service.AddMachineReservation(r, m);
-                scope.Complete();
-                scope.Dispose();
+                using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew, options))
+                {
+
+                    Machine m = Service.Service.FindMachine(machineid);
+
+                    Dao.Dao.GetDbEntities().Entry(m).Reload();
+
+                    if ((from machine in m.LaundryRoom1.Machines from res in machine.Reservations where res.reservationDate == r.reservationDate && res.WashTime == r.WashTime select res).Any())
+                    {
+
+                    }
+                    Thread.Sleep(10000);
+
+                    Service.Service.AddMachineReservation(r, m);
+                    scope.Complete();
+
+                }
             }
+            catch (TransactionAbortedException e)
+            {
+                Service.Service.DeleteResWithNulls(r);
+                ModelState.AddModelError("DateError", "The machine you picked has been taken by someone else please try another date");
+                return View("PickDate", r.LaundryUser1);
+            }
+
             return RedirectToAction("Reservation",
                     new { userid = r.LaundryUser1.name, washid = r.WashTime, resid = r.id });
         }
@@ -187,7 +194,7 @@ namespace UserLaundry.Controllers
         {
             Machine m = Service.Service.FindMachine(machine);
             Service.Service.MachineFinished(m);
-            return RedirectToAction("StartWash", new {resid});
+            return RedirectToAction("StartWash", new { resid });
         }
     }
 }
