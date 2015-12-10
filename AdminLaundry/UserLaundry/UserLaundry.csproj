@@ -120,7 +120,6 @@
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Reservation.cshtml" />
     <Content Include="Views\Home\PickDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -157,7 +156,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Wrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reservation.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -181,6 +179,7 @@
     <Content Include="Views\Home\AllReservations.cshtml" />
     <Content Include="Views\Home\StartWash.cshtml" />
     <Content Include="Views\Home\LaundryUserOverview.cshtml" />
+    <Content Include="Views\Home\Reservation.cshtml" />
     <Content Include="Views\Home\PickWashTime.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -191,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

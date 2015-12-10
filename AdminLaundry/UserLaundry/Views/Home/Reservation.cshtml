@@ -1,4 +1,4 @@
-﻿@model UserLaundry.Models.Wrapper
+﻿@model UserLaundry.LaundryUser
 
 @{
     Layout = null;
@@ -12,14 +12,28 @@
     <title>Reservation</title>
 </head>
 <body>
-<div>
-    @foreach (var machine in @Model.LaundryUser.LaundryRoom1.FindMachinesAvailable(@Model.Reservation))
-    {
-        @Html.ActionLink(@machine.ToString(), "Reserved",
-            new {resid = Model.Reservation.id, machineid = machine.id}) <br/>
-    }
+    <div>
+        @if (!Model.LaundryRoom1.checkIfMaxRes(Model))
+        {
+            foreach (var machine in Model.LaundryRoom1.FindMachinesAvailable(Model.Reservations.LastOrDefault()))
+            {
+                @Html.ActionLink(@machine.ToString(), "Reserved",
+                new { resid = Model.Reservations.LastOrDefault().id, machineid = machine.id })
+                <br />
+            }
+            @Html.ActionLink("Go to reservations", "AllReservations", new { userid = Model.name })
+        }
+        else if ((Model.LaundryRoom1.FindMachinesAvailable(Model.Reservations.LastOrDefault()).Count == 0))
+        {
+            <div>There is no available machines try another date</div>
+            @Html.ActionLink("Back", "PickDate", new { userid = Model.name })
+        }
+        else
+        {
+            <div>You can not add more machines to your reservations since you reached the allowed amount: @Model.LaundryRoom1.maxReservationPerUser.GetValueOrDefault()</div>
+            @Html.ActionLink("Go to reservations", "AllReservations", new { userid = Model.name })
+        }
 
-    @Html.ActionLink("Go to reservations", "AllReservations", new{userid = Model.LaundryUser.name})
-</div>
+    </div>
 </body>
 </html>

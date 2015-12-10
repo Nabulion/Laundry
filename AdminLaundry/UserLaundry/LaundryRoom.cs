@@ -49,7 +49,7 @@ namespace UserLaundry
         public List<Machine> FindMachinesAvailable(Reservation reservation)
         {
             List<Machine> machines = Machines.ToList();
-            
+
             foreach (var m in Machines)
             {
                 if (!m.broken.GetValueOrDefault())
@@ -58,7 +58,7 @@ namespace UserLaundry
                     {
 
                         if ((res.reservationDate == reservation.reservationDate &&
-                            res.WashTime == reservation.WashTime && !res.inactive.GetValueOrDefault()) || checkIfMaxRes())
+                            res.WashTime == reservation.WashTime && !res.inactive.GetValueOrDefault()) || checkIfMaxRes(reservation.LaundryUser1))
                         {
                             if (machines.Contains(m))
                             {
@@ -70,25 +70,51 @@ namespace UserLaundry
                     }
                 }
             }
-            
+
 
             return machines;
         }
 
-        public bool checkIfMaxRes()
+        public bool checkIfMaxRes(LaundryUser laundryUser)
         {
             int count = 0;
-            foreach (var machine in Machines)
+            foreach (var res in laundryUser.Reservations)
             {
-                foreach (var res in machine.Reservations)
+
+                if (!res.reservationUsed.GetValueOrDefault())
                 {
-                    if (!res.reservationUsed.GetValueOrDefault())
+                    count += res.Machines.Count;
+                }
+
+            }
+            return (count >= maxReservationPerUser.GetValueOrDefault());
+        }
+
+        public WashTime FindWashTime()
+        {
+            WashTime washTime = null;
+            bool found = false;
+            foreach (WashTime wt in WashTimes)
+            {
+                if (!found)
+                {
+                    if (DateTime.Today + wt.fromTime.GetValueOrDefault() >= DateTime.Now)
                     {
-                        count++;
+                        washTime = wt;
+                        found = true;
+                    }
+                    else if (DateTime.Today + wt.toTime.GetValueOrDefault() >= DateTime.Now)
+                    {
+                        washTime = wt;
+                        found = true;
                     }
                 }
             }
-            return (count == maxReservationPerUser.GetValueOrDefault());
+            if (!found)
+            {
+                throw new Exception("Sorry its to late/early to start a machine");
+            }
+            return washTime;
         }
 
         public override string ToString()

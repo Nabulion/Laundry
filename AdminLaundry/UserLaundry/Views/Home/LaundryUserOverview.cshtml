@@ -42,7 +42,7 @@
         {
             foreach (var res in Model.GetFutureRes())
             {
-                @res <div> can not be started before @res.reservationDate.GetValueOrDefault().Date</div><br />
+                @res <div> can not be started before @res.reservationDate.GetValueOrDefault()</div><br />
             }
         }
 

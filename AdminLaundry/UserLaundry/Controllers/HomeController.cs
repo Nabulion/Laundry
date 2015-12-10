@@ -7,7 +7,7 @@ using System.Transactions;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using UserLaundry.Models;
+
 
 namespace UserLaundry.Controllers
 {
@@ -18,6 +18,7 @@ namespace UserLaundry.Controllers
         public ActionResult Index()
         {
             Service.Service.SetInactiveResFromMachinePastDate(MinPastResTime);
+
             return View();
         }
 
@@ -28,6 +29,7 @@ namespace UserLaundry.Controllers
             try
             {
                 LaundryUser laundryUser = Service.Service.FindLaundryUser(name);
+
                 return RedirectToAction("PickDate", new { userid = laundryUser.name });
 
             }
@@ -43,6 +45,7 @@ namespace UserLaundry.Controllers
         public ActionResult PickDate(String userid)
         {
             LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
+
             return View(laundryUser);
         }
 
@@ -71,13 +74,9 @@ namespace UserLaundry.Controllers
         {
             try
             {
-                Wrapper w = new Wrapper();
-
                 LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
-                w.LaundryUser = laundryUser;
-                Reservation r = Service.Service.FindReservation(resid);
-                w.Reservation = r;
-                return View(w);
+
+                return View(laundryUser);
             }
             catch (Exception)
             {
@@ -90,24 +89,21 @@ namespace UserLaundry.Controllers
         public ActionResult WashTimePicked(int washid, int resid)
         {
             Reservation r = Service.Service.FindReservation(resid);
-
             WashTime washTime = Service.Service.FindWashTime(washid);
 
             Service.Service.AddWashTimeReservation(r, washTime);
 
-            return RedirectToAction("Reservation", new { userid = r.LaundryUser, resid = r.id });
+            return RedirectToAction("Reservation", new { userid = r.LaundryUser });
         }
 
 
-        public ActionResult Reservation(String userid, int resid)
+        public ActionResult Reservation(String userid)
         {
-            Wrapper w = new Wrapper();
-            w.Reservation = Service.Service.FindReservation(resid);
-            w.LaundryUser = Service.Service.FindLaundryUser(userid);
+            LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
 
-            return View(w);
+            return View(laundryUser);
         }
-   
+
         public ActionResult Reserved(int resid, int machineid)
         {
             Reservation r = Service.Service.FindReservation(resid); ;
@@ -130,9 +126,9 @@ namespace UserLaundry.Controllers
 
                     if ((from machine in m.LaundryRoom1.Machines from res in machine.Reservations where res.reservationDate == r.reservationDate && res.WashTime == r.WashTime select res).Any())
                     {
-
+                        //do nothing
                     }
-                    Thread.Sleep(10000);
+                    //Thread.Sleep(10000);
 
                     Service.Service.AddMachineReservation(r, m);
                     scope.Complete();
@@ -142,7 +138,7 @@ namespace UserLaundry.Controllers
             catch (TransactionAbortedException e)
             {
                 Service.Service.DeleteResWithNulls(r);
-                ModelState.AddModelError("DateError", "The machine you picked has been taken by someone else please try another date");
+                ModelState.AddModelError("DateError", "The machine you picked has been taken by someone else please try another date and machine");
                 return View("PickDate", r.LaundryUser1);
             }
 
@@ -154,12 +150,14 @@ namespace UserLaundry.Controllers
         {
             LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
             Service.Service.SetInactiveResFromMachinePastDate(MinPastResTime);
+
             return View(laundryUser);
         }
 
         public ActionResult StartWash(int resid)
         {
             Reservation r = Service.Service.FindReservation(resid);
+
             return View(r);
         }
 
@@ -171,14 +169,13 @@ namespace UserLaundry.Controllers
             Service.Service.StartWash(r, program.Machine1);
             Service.Service.CreateStartedWashCost(r, program);
 
-
-
             return RedirectToAction("StartWash", new { resid = r.id });
         }
 
         public ActionResult LaundryUserOverview(String userid)
         {
             LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
+
             return View(laundryUser);
         }
 
@@ -194,7 +191,24 @@ namespace UserLaundry.Controllers
         {
             Machine m = Service.Service.FindMachine(machine);
             Service.Service.MachineFinished(m);
+
             return RedirectToAction("StartWash", new { resid });
+        }
+
+        public ActionResult SeeTodaysAvailableMacinhes(string userid)
+        {
+            LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
+            try
+            {
+                Reservation r = Service.Service.CreateReservation(laundryUser, DateTime.Today);
+                Service.Service.AddWashTimeReservation(r, laundryUser.LaundryRoom1.FindWashTime());
+            }
+            catch (Exception e)
+            {
+                return View("PickDate", laundryUser);
+            }
+
+            return RedirectToAction("Reservation", new { userid = laundryUser.name });
         }
     }
 }

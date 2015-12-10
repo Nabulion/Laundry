@@ -1,4 +1,4 @@
-﻿@model UserLaundry.Models.Wrapper
+﻿@model UserLaundry.LaundryUser
 
 @{
     Layout = null;
@@ -13,24 +13,24 @@
 </head>
 <body>
     <div>
-        User name: @Model.LaundryUser.name <br />
-        Laundry room: @Model.LaundryUser.LaundryRoom1.name <br />
+        User name: @Model.name <br />
+        Laundry room: @Model.LaundryRoom1.name <br />
         <table>
             <thead>Washing times:</thead>
-            @foreach (var wt in @Model.LaundryUser.LaundryRoom1.WashTimes)
+            @foreach (var wt in @Model.LaundryRoom1.WashTimes)
             {
                 <tr>
                     <td>
-                       
-                        @if (!wt.checkWashTime(Model.Reservation))
+
+                        @if (!wt.checkWashTime(Model.Reservations.LastOrDefault()))
                         {
-                            @Html.ActionLink(@wt.ToString(), "WashTimePicked", new {washid = wt.id, resid = Model.Reservation.id})
+                            @Html.ActionLink(@wt.ToString(), "WashTimePicked", new { washid = wt.id, resid = Model.Reservations.LastOrDefault().id })
                         }
                     </td>
                 </tr>
 
             }
-            @Html.ActionLink("Back", "Back", new { resid = Model.Reservation.id, userid = Model.LaundryUser.name })
+            @Html.ActionLink("Back", "Back", new { resid = Model.Reservations.LastOrDefault().id, userid = Model.name })
         </table>
 
 

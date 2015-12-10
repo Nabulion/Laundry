@@ -25,10 +25,13 @@ namespace UserLaundry.Service
 
         public static Reservation CreateReservation(LaundryUser laundryUser, DateTime date)
         {
-            Reservation tempReservation = new Reservation();
-            tempReservation.LaundryUser1 = laundryUser;
-            tempReservation.reservationDate = date;
-            tempReservation.reservationUsed = false;
+            Reservation tempReservation = new Reservation
+            {
+                LaundryUser1 = laundryUser,
+                reservationDate = date,
+                reservationUsed = false,
+                inactive = false
+            };
             Db.Reservations.Add(tempReservation);
             Db.SaveChanges();
             return tempReservation;
@@ -99,6 +102,7 @@ namespace UserLaundry.Service
         {
             StartedWashCost cost = new StartedWashCost();
             cost.MachineProgram1 = machineProgram;
+            
             reservation.StartedWashCosts.Add(cost);
             Db.StartedWashCosts.Add(cost);
             Db.SaveChanges();

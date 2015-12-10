@@ -81,7 +81,7 @@ namespace UserLaundry
 
         public override string ToString()
         {
-            return id + " Date " + (reservationDate) + WashTime1;
+            return "Number: " + id + " Date: " + (reservationDate) + WashTime1;
         }
     }
 }
