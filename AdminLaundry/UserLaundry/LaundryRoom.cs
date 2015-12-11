@@ -54,7 +54,7 @@ namespace UserLaundry
                     foreach (var res in m.Reservations)
                     {
 
-                        if ((res.reservationDate == reservation.reservationDate &&
+                        if ((res.reservationDate.GetValueOrDefault().Date == reservation.reservationDate.GetValueOrDefault().Date &&
                              res.WashTime == reservation.WashTime && !res.inactive.GetValueOrDefault()) ||
                             checkIfMaxRes(reservation.LaundryUser1))
                         {
@@ -99,19 +99,18 @@ namespace UserLaundry
             bool found = false;
             foreach (WashTime wt in WashTimes)
             {
-                if (!found)
-                {
+          
                     if (DateTime.Today + wt.fromTime.GetValueOrDefault() >= DateTime.Now)
                     {
                         washTime = wt;
                         found = true;
                     }
-                    else if (DateTime.Today + wt.toTime.GetValueOrDefault() <= DateTime.Now)
+                    else if (DateTime.Today + wt.toTime.GetValueOrDefault() >= DateTime.Now)
                     {
                         washTime = wt;
                         found = true;
                     }
-                }
+                
             }
             if (!found)
             {

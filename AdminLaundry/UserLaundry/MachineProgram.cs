@@ -42,6 +42,7 @@ namespace UserLaundry
             }
             else
             {
+                Machine1.start = false;
                 timeLeft = 0;
             }
 

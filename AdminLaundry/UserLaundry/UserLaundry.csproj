@@ -181,6 +181,7 @@
     <Content Include="Views\Home\LaundryUserOverview.cshtml" />
     <Content Include="Views\Home\Reservation.cshtml" />
     <Content Include="Views\Home\PickWashTime.cshtml" />
+    <Content Include="Views\Home\TodaysMachinesReady.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

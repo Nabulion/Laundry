@@ -1,0 +1,28 @@
+﻿@model UserLaundry.LaundryUser
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TodaysMachinesReady</title>
+</head>
+<body>
+<div>
+    @if (!Model.LaundryRoom1.checkIfMaxRes(Model))
+    {
+        foreach (var machine in Model.LaundryRoom1.FindMachinesAvailable(Model.Reservations.LastOrDefault()))
+        {
+            @Html.ActionLink(@machine.ToString(), "TodaysMachines",
+                new { resid = Model.Reservations.LastOrDefault().id, machineid = machine.id })
+            <br />
+        }
+        @Html.ActionLink("Go to start machine", "StartWash", new { resid = Model.Reservations.LastOrDefault().id })
+    }
+</div>
+</body>
+</html>

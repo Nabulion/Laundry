@@ -143,7 +143,7 @@ namespace UserLaundry.Controllers
             }
 
             return RedirectToAction("Reservation",
-                    new { userid = r.LaundryUser1.name, washid = r.WashTime, resid = r.id });
+                    new { userid = r.LaundryUser1.name});
         }
 
         public ActionResult AllReservations(String userid)
@@ -208,7 +208,56 @@ namespace UserLaundry.Controllers
                 return View("PickDate", laundryUser);
             }
 
-            return RedirectToAction("Reservation", new { userid = laundryUser.name });
+            return RedirectToAction("TodaysMachinesReady", new { userid = laundryUser.name });
+        }
+
+        public ActionResult TodaysMachinesReady(String userid)
+        {
+            LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
+
+            return View(laundryUser);
+        }
+
+        public ActionResult TodaysMachines(int resid, int machineid)
+        {
+            Reservation r = Service.Service.FindReservation(resid); ;
+            try
+            {
+                TransactionOptions options =
+             new TransactionOptions
+             {
+                 IsolationLevel =
+                 IsolationLevel.Serializable,
+                 Timeout = TransactionManager.DefaultTimeout
+             };
+
+                using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew, options))
+                {
+
+                    Machine m = Service.Service.FindMachine(machineid);
+
+                    Dao.Dao.GetDbEntities().Entry(m).Reload();
+
+                    if ((from machine in m.LaundryRoom1.Machines from res in machine.Reservations where res.reservationDate == r.reservationDate && res.WashTime == r.WashTime select res).Any())
+                    {
+                        //do nothing
+                    }
+                    //Thread.Sleep(10000);
+
+                    Service.Service.AddMachineReservation(r, m);
+                    scope.Complete();
+
+                }
+            }
+            catch (TransactionAbortedException e)
+            {
+                Service.Service.DeleteResWithNulls(r);
+                ModelState.AddModelError("DateError", "The machine you picked has been taken by someone else please try another date and machine");
+                return View("PickDate", r.LaundryUser1);
+            }
+
+            return RedirectToAction("TodaysMachinesReady",
+                    new { userid = r.LaundryUser1.name, resid = r.id });
         }
     }
 }
