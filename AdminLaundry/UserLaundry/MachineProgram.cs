@@ -27,12 +27,7 @@ namespace UserLaundry
     
         public virtual Machine Machine1 { get; set; }
         public virtual ICollection<StartedWashCost> StartedWashCosts { get; set; }
-
-        public override string ToString()
-        {
-            return programType + " price " + price + " duration " + programTime + " minutes";
-        }
-
+       
         public int TimeLeft(Reservation resdate)
         {
             int timeLeft = 0;
@@ -53,5 +48,9 @@ namespace UserLaundry
             return timeLeft;
         }
 
+        public override string ToString()
+        {
+            return programType + " price " + price + " duration " + programTime + " minutes";
+        }
     }
 }

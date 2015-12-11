@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,41 +26,52 @@ namespace AdminLaundry
         {
             InitializeComponent();
             LbLaundryRooms.ItemsSource = Service.Service.GetLaundryRooms();
-            lbUsers.ItemsSource = Service.Service.GetUsers();
+            LbUsers.ItemsSource = Service.Service.GetUsers();
         }
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            
+            LaundryRoom laundryRoom = null;
             try
             {
-                LaundryRoom laundryRoom = (LaundryRoom)LbLaundryRooms.SelectedItem;
+                if ((LaundryRoom)LbLaundryRooms.SelectedItem != null) { 
+                laundryRoom = (LaundryRoom)LbLaundryRooms.SelectedItem;
+                }
+                else
+                {
+                    throw new Exception("Please pick a laundry");
+                }
+
                 LaundryUser laundryUser = Service.Service.CreateLaundryUser(laundryRoom, TextUserName.Text);
-                TextMessage.Text = "User: " + laundryUser.name + " has been created and assigned " +
-                               laundryUser.LaundryRoom1 + " as Laundryroom";
-         
-                lbUsers.ItemsSource = Service.Service.GetUsers();
+           
+                TextException.Text = "User: " + laundryUser.name + " has been created and assigned " +
+                                      laundryUser.LaundryRoom1 + " as Laundryroom";
+                LbUsers.ItemsSource = null;
+                LbUsers.ItemsSource = Service.Service.GetUsers();
             }
             catch (Exception e1)
             {
-                TextMessage.Text = e1.Message;
+                TextException.Text = e1.Message;
             }
-         
-            
+                
+        
+
+
         }
 
         private void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                LaundryUser user = (LaundryUser)lbUsers.SelectedItem;
+                LaundryUser user = (LaundryUser)LbUsers.SelectedItem;
                 TextWashCost.Text = Service.Service.UserTotalCost(user)+ "";
-                TextMessage.Text = "Calculated the washcost for " + user.name;
+                TextException.Text = "Calculated the washcost for " + user.name;
+                
             }
             catch (Exception e1)
             {
 
-                TextMessage.Text = e1.Message;
+                TextException.Text = "Please select a user";
             }
             
 
@@ -69,15 +81,15 @@ namespace AdminLaundry
         {
             try
             {
-                LaundryUser user = (LaundryUser)lbUsers.SelectedItem;
+                LaundryUser user = (LaundryUser)LbUsers.SelectedItem;
                 Service.Service.UserTotalCostPayed(user);
                 TextWashCost.Text = Service.Service.UserTotalCost(user) + "";
-                TextMessage.Text = "Added the washcost for " + user.name + " to rent";
+                TextException.Text = "Added the washcost for " + user.name + " to rent";
             }
             catch (Exception e1)
             {
 
-                TextMessage.Text = e1.Message;
+                TextException.Text = e1.Message;
             }
         }
     }

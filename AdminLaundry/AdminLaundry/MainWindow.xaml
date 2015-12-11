@@ -8,15 +8,14 @@
         <TextBox x:Name="TextUserName" HorizontalAlignment="Left" Height="23" Margin="10,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
         <Label x:Name="LblCreateUser" Content="create user" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.12,0.209" Width="110"/>
         <Label x:Name="LblName" Content="Name" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextMessage" HorizontalAlignment="Left" Height="98" Margin="415,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="92"/>
-        <Label Content="Event Window" HorizontalAlignment="Left" Margin="321,10,0,0" VerticalAlignment="Top" Width="89"/>
         <Label Content="Laundry" HorizontalAlignment="Left" Margin="103,37,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="lbUsers" HorizontalAlignment="Left" Height="149" Margin="260,149,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="BtnCalculate" Content="Calculate" HorizontalAlignment="Left" Margin="365,238,0,0" VerticalAlignment="Top" Width="75" Click="BtnCalculate_Click"/>
-        <Button x:Name="BtnRent" Content="Add to rent" HorizontalAlignment="Left" Margin="365,276,0,0" VerticalAlignment="Top" Width="75" Click="BtnRent_Click"/>
-        <Label Content="Users" HorizontalAlignment="Left" Margin="260,123,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextWashCost" HorizontalAlignment="Left" Height="23" Margin="433,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58"/>
-        <Label Content="Wash cost" HorizontalAlignment="Left" Margin="433,162,0,0" VerticalAlignment="Top" Width="70"/>
+        <ListBox x:Name="LbUsers" HorizontalAlignment="Left" Height="167" Margin="248,63,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button x:Name="BtnCalculate" Content="Calculate" HorizontalAlignment="Left" Margin="353,176,0,0" VerticalAlignment="Top" Width="75" Click="BtnCalculate_Click"/>
+        <Button x:Name="BtnRent" Content="Add to rent" HorizontalAlignment="Left" Margin="353,214,0,0" VerticalAlignment="Top" Width="75" Click="BtnRent_Click"/>
+        <Label Content="Users" HorizontalAlignment="Left" Margin="248,37,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextWashCost" HorizontalAlignment="Left" Height="23" Margin="432,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58"/>
+        <Label Content="Wash cost" HorizontalAlignment="Left" Margin="432,124,0,0" VerticalAlignment="Top" Width="70"/>
+        <TextBox x:Name="TextException" HorizontalAlignment="Left" Height="23" Margin="21,260,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="auto" IsEnabled="False"/>
 
     </Grid>
 </Window>

@@ -7,15 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using System.Linq;
-using UserLaundry;
 
 namespace UserLaundry
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class LaundryRoom
     {
         public LaundryRoom()
@@ -24,14 +22,13 @@ namespace UserLaundry
             this.Machines = new HashSet<Machine>();
             this.WashTimes = new HashSet<WashTime>();
         }
-
+    
         public string name { get; set; }
         public Nullable<int> maxReservationPerUser { get; set; }
-
+    
         public virtual ICollection<LaundryUser> LaundryUsers { get; set; }
         public virtual ICollection<Machine> Machines { get; set; }
         public virtual ICollection<WashTime> WashTimes { get; set; }
-
 
         public List<Machine> GetMachinesInUse()
         {
@@ -58,7 +55,8 @@ namespace UserLaundry
                     {
 
                         if ((res.reservationDate == reservation.reservationDate &&
-                            res.WashTime == reservation.WashTime && !res.inactive.GetValueOrDefault()) || checkIfMaxRes(reservation.LaundryUser1))
+                             res.WashTime == reservation.WashTime && !res.inactive.GetValueOrDefault()) ||
+                            checkIfMaxRes(reservation.LaundryUser1))
                         {
                             if (machines.Contains(m))
                             {
@@ -67,6 +65,13 @@ namespace UserLaundry
                         }
 
 
+                    }
+                }
+                else
+                {
+                    if (machines.Contains(m))
+                    {
+                        machines.Remove(m);
                     }
                 }
             }
@@ -123,4 +128,3 @@ namespace UserLaundry
         }
     }
 }
-

@@ -13,21 +13,22 @@ namespace AdminLaundry.Service
 
        public static LaundryUser CreateLaundryUser(LaundryRoom laundryRoom, String name)
        {
-           LaundryUser tempLaundryUser = new LaundryUser();
+           LaundryUser tempLaundryUser = null;
            try
            {
+               tempLaundryUser = new LaundryUser();
                tempLaundryUser.LaundryRoom1 = laundryRoom;
                tempLaundryUser.name = name;
+
                Db.LaundryUsers.Add(tempLaundryUser);
                Db.SaveChanges();
            }
-           catch (DbUpdateException e)
+           catch (DbUpdateException)
            {
-               Db.LaundryUsers.Remove(tempLaundryUser);
-               Db.SaveChanges();
-               throw new Exception("The name is already in use");
+               throw new Exception("There is already a user named: " + tempLaundryUser.name);
            }
-        
+           
+
            return tempLaundryUser;
        }
 

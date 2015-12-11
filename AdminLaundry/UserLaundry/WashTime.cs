@@ -27,11 +27,6 @@ namespace UserLaundry
         public virtual LaundryRoom LaundryRoom1 { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
 
-        public override string ToString()
-        {
-            return fromTime + "-" + toTime;
-        }
-
         public bool checkWashTime(Reservation r)
         {
             bool resAfterTime = false;
@@ -41,6 +36,11 @@ namespace UserLaundry
                                (r.reservationDate.GetValueOrDefault().AddHours(DateTime.Now.Hour));
             }
             return resAfterTime;
+        }
+
+        public override string ToString()
+        {
+            return fromTime + "-" + toTime;
         }
     }
 }
