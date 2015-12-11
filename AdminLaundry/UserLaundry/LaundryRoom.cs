@@ -63,8 +63,6 @@ namespace UserLaundry
                                 machines.Remove(m);
                             }
                         }
-
-
                     }
                 }
                 else
@@ -108,7 +106,7 @@ namespace UserLaundry
                         washTime = wt;
                         found = true;
                     }
-                    else if (DateTime.Today + wt.toTime.GetValueOrDefault() >= DateTime.Now)
+                    else if (DateTime.Today + wt.toTime.GetValueOrDefault() <= DateTime.Now)
                     {
                         washTime = wt;
                         found = true;

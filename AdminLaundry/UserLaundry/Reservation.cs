@@ -11,7 +11,7 @@ namespace UserLaundry
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Reservation
     {
         public Reservation()
@@ -19,14 +19,14 @@ namespace UserLaundry
             this.StartedWashCosts = new HashSet<StartedWashCost>();
             this.Machines = new HashSet<Machine>();
         }
-    
+
         public int id { get; set; }
         public string LaundryUser { get; set; }
         public Nullable<System.DateTime> reservationDate { get; set; }
         public Nullable<int> WashTime { get; set; }
         public Nullable<bool> reservationUsed { get; set; }
         public Nullable<bool> inactive { get; set; }
-    
+
         public virtual LaundryUser LaundryUser1 { get; set; }
         public virtual WashTime WashTime1 { get; set; }
         public virtual ICollection<StartedWashCost> StartedWashCosts { get; set; }
@@ -84,5 +84,5 @@ namespace UserLaundry
             return "Number: " + id + " Date: " + (reservationDate) + WashTime1;
         }
     }
-    }
 }
+

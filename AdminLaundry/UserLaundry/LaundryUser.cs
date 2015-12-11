@@ -73,9 +73,13 @@ namespace UserLaundry
             List<Reservation> list = new List<Reservation>();
             foreach (Reservation res in Reservations)
             {
-                if (res.reservationDate.GetValueOrDefault().Date > DateTime.Today)
+                if (res != null)
                 {
-                    list.Add(res);
+                    if (res.reservationDate.GetValueOrDefault().Date > DateTime.Today &&
+                        !res.inactive.GetValueOrDefault())
+                    {
+                        list.Add(res);
+                    }
                 }
             }
             return list;
@@ -86,9 +90,12 @@ namespace UserLaundry
             List<Reservation> list = new List<Reservation>();
             foreach (Reservation res in Reservations)
             {
-                if (res.reservationDate.GetValueOrDefault().Date == DateTime.Today && !res.reservationUsed.GetValueOrDefault())
+                if (res != null) { 
+                DateTime resDate = res.reservationDate.GetValueOrDefault() + res.WashTime1.fromTime.GetValueOrDefault();
+                if (resDate >= DateTime.Now && !res.reservationUsed.GetValueOrDefault())
                 {
                     list.Add(res);
+                }
                 }
             }
             return list;
@@ -99,9 +106,13 @@ namespace UserLaundry
             List<Reservation> list = new List<Reservation>();
             foreach (Reservation res in Reservations)
             {
-                if (res.reservationDate.GetValueOrDefault().Date == DateTime.Today && res.reservationUsed.GetValueOrDefault())
+                if (res != null)
                 {
-                    list.Add(res);
+                    if (res.reservationDate.GetValueOrDefault().Date == DateTime.Today &&
+                        res.reservationUsed.GetValueOrDefault())
+                    {
+                        list.Add(res);
+                    }
                 }
             }
             return list;

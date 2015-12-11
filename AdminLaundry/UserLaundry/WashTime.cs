@@ -33,7 +33,7 @@ namespace UserLaundry
             if (DateTime.Today == r.reservationDate)
             {
                 resAfterTime = (DateTime.Today + fromTime) <
-                               (r.reservationDate.GetValueOrDefault().AddHours(DateTime.Now.Hour));
+                               (DateTime.Now);
             }
             return resAfterTime;
         }
