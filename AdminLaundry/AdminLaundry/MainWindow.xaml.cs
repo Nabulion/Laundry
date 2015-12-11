@@ -31,11 +31,12 @@ namespace AdminLaundry
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            LaundryRoom laundryRoom = null;
             try
             {
-                if ((LaundryRoom)LbLaundryRooms.SelectedItem != null) { 
-                laundryRoom = (LaundryRoom)LbLaundryRooms.SelectedItem;
+                LaundryRoom laundryRoom = null;
+                if ((LaundryRoom) LbLaundryRooms.SelectedItem != null)
+                {
+                    laundryRoom = (LaundryRoom) LbLaundryRooms.SelectedItem;
                 }
                 else
                 {
@@ -43,18 +44,18 @@ namespace AdminLaundry
                 }
 
                 LaundryUser laundryUser = Service.Service.CreateLaundryUser(laundryRoom, TextUserName.Text);
-           
+
                 TextException.Text = "User: " + laundryUser.name + " has been created and assigned " +
-                                      laundryUser.LaundryRoom1 + " as Laundryroom";
-                LbUsers.ItemsSource = null;
-                LbUsers.ItemsSource = Service.Service.GetUsers();
+                                     laundryUser.LaundryRoom1 + " as Laundryroom";
+                
             }
             catch (Exception e1)
             {
                 TextException.Text = e1.Message;
             }
-                
-        
+
+            LbUsers.ItemsSource = null;
+            LbUsers.ItemsSource = Service.Service.GetUsers();
 
 
         }
@@ -64,16 +65,16 @@ namespace AdminLaundry
             try
             {
                 LaundryUser user = (LaundryUser)LbUsers.SelectedItem;
-                TextWashCost.Text = Service.Service.UserTotalCost(user)+ "";
+                TextWashCost.Text = Service.Service.UserTotalCost(user) + "";
                 TextException.Text = "Calculated the washcost for " + user.name;
-                
+
             }
             catch (Exception e1)
             {
 
                 TextException.Text = "Please select a user";
             }
-            
+
 
         }
 
@@ -89,7 +90,7 @@ namespace AdminLaundry
             catch (Exception e1)
             {
 
-                TextException.Text = e1.Message;
+                TextException.Text = "Please select a user";
             }
         }
     }
