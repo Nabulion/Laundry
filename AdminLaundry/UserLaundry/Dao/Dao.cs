@@ -42,21 +42,18 @@ namespace UserLaundry.Dao
             return _db.MachinePrograms.Find(programid);
         }
 
+ 
         public static void SetInactiveResFromMachinePastDate(int min)
         {
-            foreach (var machine in _db.Machines)
+            foreach (var res in _db.Reservations)
             {
-
-                for (int i = 0; i < machine.Reservations.Count; i++)
+                if (!res.reservationUsed.GetValueOrDefault())
                 {
-                    if (!machine.Reservations.ToList()[i].reservationUsed.GetValueOrDefault())
+                    DateTime expireDate = res.reservationDate.GetValueOrDefault().Date
+                                        + res.WashTime1.fromTime.GetValueOrDefault();
+                    if (DateTime.Now > expireDate.AddMinutes(min))
                     {
-                        DateTime expireDate = machine.Reservations.ToList()[i].reservationDate.GetValueOrDefault() 
-                                            + machine.Reservations.ToList()[i].WashTime1.fromTime.GetValueOrDefault();
-                        if (DateTime.Now > expireDate.AddMinutes(min))
-                        {
-                            machine.Reservations.ToList()[i].inactive = true;
-                        }
+                        res.inactive = true;
                     }
                 }
             }

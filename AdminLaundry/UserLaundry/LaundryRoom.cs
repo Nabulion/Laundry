@@ -79,6 +79,7 @@ namespace UserLaundry
             return machines;
         }
 
+
         public bool checkIfMaxRes(LaundryUser laundryUser)
         {
             int count = 0;

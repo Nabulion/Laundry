@@ -95,7 +95,7 @@ namespace UserLaundry
             {
                 if (res != null)
                 {
-                    if (res.reservationDate.GetValueOrDefault().Date == DateTime.Today)
+                    if (res.reservationDate.GetValueOrDefault().Date == DateTime.Today && !res.inactive.GetValueOrDefault())
                     {
                         DateTime resDate = res.reservationDate.GetValueOrDefault().Date +
                                            res.WashTime1.fromTime.GetValueOrDefault();
