@@ -30,10 +30,10 @@
                 </tr>
 
             }
-            @Html.ActionLink("Back", "Back", new { resid = Model.Reservations.LastOrDefault().id, userid = Model.name })
+            
         </table>
 
-
+        @Html.ActionLink("Back", "Back", new { resid = Model.Reservations.LastOrDefault().id, userid = Model.name })
 
 
 
