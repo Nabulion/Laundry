@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace AdminLaundry
 {
@@ -33,9 +21,9 @@ namespace AdminLaundry
             try
             {
                 LaundryRoom laundryRoom = null;
-                if ((LaundryRoom) LbLaundryRooms.SelectedItem != null)
+                if ((LaundryRoom)LbLaundryRooms.SelectedItem != null)
                 {
-                    laundryRoom = (LaundryRoom) LbLaundryRooms.SelectedItem;
+                    laundryRoom = (LaundryRoom)LbLaundryRooms.SelectedItem;
                 }
                 else
                 {
@@ -47,7 +35,7 @@ namespace AdminLaundry
                 TextException.Text = "User: " + laundryUser.name + " has been created and assigned " +
                                      laundryUser.LaundryRoom1 + " as Laundryroom";
                 LbUsers.ItemsSource = Service.Service.GetUsers(laundryRoom);
-                
+
             }
             catch (Exception e1)
             {
@@ -93,11 +81,9 @@ namespace AdminLaundry
 
         private void LbLaundryRooms_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            LaundryRoom laundryRoom = null;
-            if ((LaundryRoom)LbLaundryRooms.SelectedItem != null)
-            {
-                laundryRoom = (LaundryRoom)LbLaundryRooms.SelectedItem;
-            }
+
+            LaundryRoom laundryRoom = (LaundryRoom)LbLaundryRooms.SelectedItem;
+
             LbUsers.ItemsSource = Service.Service.GetUsers(laundryRoom);
         }
     }

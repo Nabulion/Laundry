@@ -1,11 +1,7 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Transactions;
-using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 
 
@@ -72,18 +68,9 @@ namespace UserLaundry.Controllers
 
         public ActionResult PickWashTime(String userid, int resid)
         {
-            try
-            {
                 LaundryUser laundryUser = Service.Service.FindLaundryUser(userid);
 
                 return View(laundryUser);
-            }
-            catch (Exception)
-            {
-
-                return RedirectToAction("Index");
-            }
-
         }
 
         public ActionResult WashTimePicked(int washid, int resid)

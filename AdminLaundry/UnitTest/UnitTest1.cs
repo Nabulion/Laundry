@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using UserLaundry;
-using UserLaundry.Dao;
 
 namespace UnitTest
 {
