@@ -8,6 +8,7 @@
 //------------------------------------------------------------------------------
 
 using System.Linq;
+using System.Web.Mvc.Html;
 
 namespace UserLaundry
 {
@@ -97,9 +98,10 @@ namespace UserLaundry
         {
             WashTime washTime = null;
             bool found = false;
-            foreach (WashTime wt in WashTimes)
+            var list = (from w in WashTimes select w).ToList().OrderBy(w => w.fromTime);
+            foreach (WashTime wt in list)
             {
-          
+                if (!found) { 
                     if (DateTime.Today + wt.fromTime.GetValueOrDefault() >= DateTime.Now)
                     {
                         washTime = wt;
@@ -110,11 +112,12 @@ namespace UserLaundry
                         washTime = wt;
                         found = true;
                     }
+                }
                 
             }
             if (!found)
             {
-                throw new Exception("Sorry its to late/early to start a machine");
+                throw new Exception("Sorry its too late/early to start a machine");
             }
             return washTime;
         }

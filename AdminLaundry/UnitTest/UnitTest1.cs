@@ -25,11 +25,12 @@ namespace UnitTest
             laundryUser.name = "Namjoo";
 
             reservation = new Reservation();
-            laundryUser.Reservations.Add(reservation);
+           
             washTime = new WashTime();
-
-            washTime.toTime = new TimeSpan(10,02,2);
-            washTime.fromTime = new TimeSpan(09,02,02);
+            washTime.fromTime = DateTime.Now.AddMinutes(10).TimeOfDay;
+       
+            reservation.WashTime1 = washTime;
+            laundryUser.Reservations.Add(reservation);
         }
 
         //LaundryRoom
@@ -124,7 +125,7 @@ namespace UnitTest
         public void TestGetTodaysRes1()
         {
             reservation.reservationDate = DateTime.Today;
-
+            laundryUser.Reservations.Add(reservation);
             Assert.AreEqual(1, laundryUser.GetTodaysRes().Count);
         }
 
@@ -134,6 +135,8 @@ namespace UnitTest
             reservation.reservationDate = DateTime.Today;
             Reservation futureReservation = new Reservation();
             futureReservation.reservationDate = DateTime.Today.AddDays(7);
+            futureReservation.WashTime1 = washTime;
+            laundryUser.Reservations.Add(reservation);
             laundryUser.Reservations.Add(futureReservation);
 
             Assert.AreEqual(1, laundryUser.GetTodaysRes().Count);

@@ -124,11 +124,11 @@ namespace UserLaundry.Controllers
 
                     Dao.Dao.GetDbEntities().Entry(m).Reload();
 
-                    if ((from machine in m.LaundryRoom1.Machines from res in machine.Reservations where res.reservationDate == r.reservationDate && res.WashTime == r.WashTime select res).Any())
+                    if ((from machine in m.LaundryRoom1.Machines from res in machine.Reservations where res.reservationDate.GetValueOrDefault().Date == r.reservationDate.GetValueOrDefault().Date && res.WashTime == r.WashTime select res).Any())
                     {
-                        //do nothing
+                        //do nothing or you could throw an error but then it wouldnt be the transaction handling the change...
                     }
-                    //Thread.Sleep(10000);
+                    Thread.Sleep(5000);
 
                     Service.Service.AddMachineReservation(r, m);
                     scope.Complete();
@@ -238,11 +238,11 @@ namespace UserLaundry.Controllers
 
                     Dao.Dao.GetDbEntities().Entry(m).Reload();
 
-                    if ((from machine in m.LaundryRoom1.Machines from res in machine.Reservations where res.reservationDate == r.reservationDate && res.WashTime == r.WashTime select res).Any())
+                    if ((from machine in m.LaundryRoom1.Machines from res in machine.Reservations where res.reservationDate.GetValueOrDefault().Date == r.reservationDate.GetValueOrDefault().Date && res.WashTime == r.WashTime select res).Any())
                     {
-                        //do nothing
+                        //do nothing or you could throw an error but then it wouldnt be the transaction handling the change...
                     }
-                    //Thread.Sleep(10000);
+                    Thread.Sleep(5000);
 
                     Service.Service.AddMachineReservation(r, m);
                     scope.Complete();

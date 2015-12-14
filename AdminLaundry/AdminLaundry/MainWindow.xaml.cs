@@ -26,7 +26,6 @@ namespace AdminLaundry
         {
             InitializeComponent();
             LbLaundryRooms.ItemsSource = Service.Service.GetLaundryRooms();
-            LbUsers.ItemsSource = Service.Service.GetUsers();
         }
 
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
@@ -47,15 +46,13 @@ namespace AdminLaundry
 
                 TextException.Text = "User: " + laundryUser.name + " has been created and assigned " +
                                      laundryUser.LaundryRoom1 + " as Laundryroom";
+                LbUsers.ItemsSource = Service.Service.GetUsers(laundryRoom);
                 
             }
             catch (Exception e1)
             {
                 TextException.Text = e1.Message;
             }
-
-            LbUsers.ItemsSource = null;
-            LbUsers.ItemsSource = Service.Service.GetUsers();
 
 
         }
@@ -65,7 +62,7 @@ namespace AdminLaundry
             try
             {
                 LaundryUser user = (LaundryUser)LbUsers.SelectedItem;
-                TextWashCost.Text = Service.Service.UserTotalCost(user) + "";
+                TextWashCost.Text = user.UnPaidWashes() + "";
                 TextException.Text = "Calculated the washcost for " + user.name;
 
             }
@@ -84,7 +81,7 @@ namespace AdminLaundry
             {
                 LaundryUser user = (LaundryUser)LbUsers.SelectedItem;
                 Service.Service.UserTotalCostPayed(user);
-                TextWashCost.Text = Service.Service.UserTotalCost(user) + "";
+                TextWashCost.Text = user.UnPaidWashes() + "";
                 TextException.Text = "Added the washcost for " + user.name + " to rent";
             }
             catch (Exception e1)
@@ -92,6 +89,16 @@ namespace AdminLaundry
 
                 TextException.Text = "Please select a user";
             }
+        }
+
+        private void LbLaundryRooms_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LaundryRoom laundryRoom = null;
+            if ((LaundryRoom)LbLaundryRooms.SelectedItem != null)
+            {
+                laundryRoom = (LaundryRoom)LbLaundryRooms.SelectedItem;
+            }
+            LbUsers.ItemsSource = Service.Service.GetUsers(laundryRoom);
         }
     }
 }

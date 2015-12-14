@@ -11,17 +11,17 @@ namespace UserLaundry
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class LaundryUser
     {
         public LaundryUser()
         {
             this.Reservations = new HashSet<Reservation>();
         }
-    
+
         public string name { get; set; }
         public string LaundryRoom { get; set; }
-    
+
         public virtual LaundryRoom LaundryRoom1 { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
 
@@ -75,10 +75,13 @@ namespace UserLaundry
             {
                 if (res != null)
                 {
-                    if (res.reservationDate.GetValueOrDefault().Date > DateTime.Today &&
-                        !res.inactive.GetValueOrDefault())
+                    if (res.reservationDate.GetValueOrDefault().Date != DateTime.Today)
                     {
-                        list.Add(res);
+                        if (res.reservationDate.GetValueOrDefault().Date > DateTime.Today &&
+                            !res.inactive.GetValueOrDefault())
+                        {
+                            list.Add(res);
+                        }
                     }
                 }
             }
@@ -90,12 +93,17 @@ namespace UserLaundry
             List<Reservation> list = new List<Reservation>();
             foreach (Reservation res in Reservations)
             {
-                if (res != null) { 
-                DateTime resDate = res.reservationDate.GetValueOrDefault() + res.WashTime1.fromTime.GetValueOrDefault();
-                if (resDate >= DateTime.Now && !res.reservationUsed.GetValueOrDefault())
+                if (res != null)
                 {
-                    list.Add(res);
-                }
+                    if (res.reservationDate.GetValueOrDefault().Date == DateTime.Today)
+                    {
+                        DateTime resDate = res.reservationDate.GetValueOrDefault().Date +
+                                           res.WashTime1.fromTime.GetValueOrDefault();
+                        if (resDate >= DateTime.Now && !res.reservationUsed.GetValueOrDefault())
+                        {
+                            list.Add(res);
+                        }
+                    }
                 }
             }
             return list;

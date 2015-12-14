@@ -9,37 +9,72 @@ namespace Opgave7DatabaseDel.BackEnd
 {
     public class BackEnd
     {
-        LaundryDBEntities _db = new LaundryDBEntities();
+        private LaundryDBEntities _db = new LaundryDBEntities();
         public LaundryUser LaundryUser { get; set; }
         public LaundryRoom LaundryRoom { get; set; }
 
+
+
+        //anvender de reservationer der er i systemet
         public int TotalResMachine(LaundryRoom laundryRoom)
         {
             return (from laundryUser in laundryRoom.LaundryUsers from reservation in laundryUser.Reservations from m in reservation.Machines select m).Count();
         }
 
+        //koere alle laundryRooms igennem...
         public void AllLundries()
         {
             foreach (LaundryRoom laundryRoom in _db.LaundryRooms)
             {
                 Console.WriteLine(laundryRoom.name + " has " + TotalResMachine(laundryRoom) + " machines in reservations");
             }
-            
+
         }
 
-        public void RemoveFutureRes(LaundryUser laundryUser)
+        //anvender timesUsed på machine
+        public int TotalResMachine2(LaundryRoom laundryRoom)
         {
-           
-            for (int i = 0; i < laundryUser.Reservations.Count; i++)
+            return laundryRoom.Machines.Sum(machine => machine.timesUsed.GetValueOrDefault());
+        }
+
+        //koere alle laundryRooms igennem...
+        public void AllLundries2()
+        {
+            foreach (LaundryRoom laundryRoom in _db.LaundryRooms)
             {
-                if (laundryUser.Reservations.ToList()[i].reservationDate > DateTime.Now)
-                {
-                    laundryUser.Reservations.Remove(laundryUser.Reservations.ToList()[i]);
-                    _db.Reservations.Remove(laundryUser.Reservations.ToList()[i]);
-                }
+                Console.WriteLine(laundryRoom.name + " has " + TotalResMachine2(laundryRoom) + " machines in reservations");
             }
 
-            _db.SaveChanges();
+        }
+
+        //fjerner fremtidige reservationer fra brugeren
+        public void RemoveFutureRes(string name)
+        {
+            LaundryUser laundryUser = _db.LaundryUsers.Find(name);
+            List<Reservation> resList = laundryUser.Reservations.ToList();
+            foreach (var res in resList)
+            {
+                if (res.reservationDate.GetValueOrDefault() > DateTime.Now)
+                {
+                    //hvis alle relationer er lavet fra C# koden/Linq behøver sletningen af maskiner ikke at vaere der, da Linq selv sletter mange til mange relationen
+                    List<Machine> machineList = res.Machines.ToList();
+                    foreach (var machine in machineList)
+                    {
+                        res.Machines.Remove(machine);
+                    }
+                    _db.Reservations.Remove(res);
+                }
+            }
+            try
+            {
+                _db.SaveChanges();
+            }
+            catch (DbUpdateException e)
+            {
+
+                Console.WriteLine(e.InnerException);
+            }
+
         }
 
         public void TestData()
@@ -53,11 +88,13 @@ namespace Opgave7DatabaseDel.BackEnd
             machine1.machineType = "TestVaskemaskine";
             machine1.timesUsed = 0;
             machine1.broken = false;
+
             Machine machine2 = new Machine();
             machine2.LaundryRoom1 = LaundryRoom;
             machine2.machineType = "TestVaskemaskine";
             machine2.timesUsed = 0;
             machine2.broken = false;
+
             Machine machine3 = new Machine();
             machine3.LaundryRoom1 = LaundryRoom;
             machine3.machineType = "TestVaskemaskine";
@@ -72,7 +109,7 @@ namespace Opgave7DatabaseDel.BackEnd
 
 
             Reservation r1 = new Reservation();
-            r1.reservationDate = new DateTime(2015, 12, 05);
+            r1.reservationDate = new DateTime(2015, 01, 05);
             r1.LaundryUser1 = LaundryUser;
             r1.Machines.Add(machine1);
             r1.Machines.Add(machine2);
@@ -88,9 +125,15 @@ namespace Opgave7DatabaseDel.BackEnd
             r3.Machines.Add(machine1);
             r3.Machines.Add(machine3);
 
+            Reservation r4 = new Reservation();
+            r4.reservationDate = new DateTime(2015, 01, 03);
+            r4.LaundryUser1 = LaundryUser;
+            r4.Machines.Add(machine1);
+            r4.Machines.Add(machine3);
+
             try
             {
-                
+
                 _db.LaundryRooms.Add(LaundryRoom);
                 _db.LaundryUsers.Add(LaundryUser);
                 _db.Machines.Add(machine1);
@@ -99,7 +142,9 @@ namespace Opgave7DatabaseDel.BackEnd
                 _db.Reservations.Add(r1);
                 _db.Reservations.Add(r2);
                 _db.Reservations.Add(r3);
+                _db.Reservations.Add(r4);
                 _db.SaveChanges();
+
             }
             catch (DbUpdateException e)
             {
@@ -107,7 +152,7 @@ namespace Opgave7DatabaseDel.BackEnd
                 Console.WriteLine(e.InnerException);
             }
         }
-
+        //sletter test data igen
         public void DeleteTestData()
         {
             try
@@ -131,7 +176,7 @@ namespace Opgave7DatabaseDel.BackEnd
 
                 Console.WriteLine(e.InnerException);
             }
-           
+
         }
     }
 }

@@ -25,6 +25,25 @@ namespace AdminLaundry
         public virtual LaundryRoom LaundryRoom1 { get; set; }
         public virtual ICollection<Reservation> Reservations { get; set; }
 
+        public decimal UnPaidWashes()
+        {
+            decimal total = 0;
+            foreach (var res in Reservations)
+            {
+                if (res.StartedWashCosts.Count != 0)
+                {
+                    foreach (var cost in res.StartedWashCosts)
+                    {
+                        if (!cost.payed.GetValueOrDefault())
+                        {
+                            total += cost.MachineProgram1.price.GetValueOrDefault();
+                        }
+                    }
+                }
+            }
+            return total;
+        }
+
         public override string ToString()
         {
             return name;

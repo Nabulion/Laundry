@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <ListBox x:Name="LbLaundryRooms" HorizontalAlignment="Left" Height="167" Margin="103,63,0,0" VerticalAlignment="Top" Width="100"/>
+        <ListBox x:Name="LbLaundryRooms" HorizontalAlignment="Left" Height="167" Margin="103,63,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="LbLaundryRooms_SelectionChanged"/>
         <Button x:Name="BtnCreate" Content="create" HorizontalAlignment="Left" Margin="10,208,0,0" VerticalAlignment="Top" Width="45" Click="BtnCreate_Click"/>
         <TextBox x:Name="TextUserName" HorizontalAlignment="Left" Height="23" Margin="10,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
         <Label x:Name="LblCreateUser" Content="create user" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.12,0.209" Width="110"/>
