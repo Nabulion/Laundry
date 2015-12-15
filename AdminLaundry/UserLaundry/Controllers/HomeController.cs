@@ -115,7 +115,7 @@ namespace UserLaundry.Controllers
                     {
                         //do nothing or you could throw an error but then it wouldnt be the transaction handling the change...
                     }
-                    Thread.Sleep(5000);
+                   // Thread.Sleep(5000);
 
                     Service.Service.AddMachineReservation(r, m);
                     scope.Complete();
@@ -229,7 +229,7 @@ namespace UserLaundry.Controllers
                     {
                         //do nothing or you could throw an error but then it wouldnt be the transaction handling the change...
                     }
-                    Thread.Sleep(5000);
+                    //Thread.Sleep(5000);
 
                     Service.Service.AddMachineReservation(r, m);
                     scope.Complete();
